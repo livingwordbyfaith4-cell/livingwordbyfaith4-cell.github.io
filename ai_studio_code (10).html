@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Living By The Word By Faith — Spiritual Warfare & Study App</title>
+  
+  <!-- PWA Manifest Link -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a192f">
+
+  <!-- Tailwind CSS & Iconify -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0a192f; color: #ffffff; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #0a192f; }
+    ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 2px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body class="bg-[#0a192f] text-white antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- HEADER & SIGNATURE TITLE -->
+  <header class="bg-[#071120] border-b border-blue-900/50 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="iconify text-[#22c55e] text-2xl" data-icon="mdi:book-cross"></span>
+        <h1 class="text-lg font-bold tracking-tight text-white">Living By The Word By Faith</h1>
+      </div>
+      <div class="text-xs text-green-400 bg-green-950/60 border border-green-800/50 px-3 py-1 rounded-full flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+        PWA Active & Ready
+      </div>
+    </div>
+
+    <!-- MASTER NAVIGATION -->
+    <nav class="flex overflow-x-auto px-4 py-2 gap-2 bg-[#0a192f] border-t border-blue-900/30 scrollbar-none">
+      <button onclick="switchTab('identifier', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/40 text-green-400 border border-green-500/30 transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:shield-search"></span> Thought Identifier
+      </button>
+      <button onclick="switchTab('bible', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/20 text-gray-300 hover:text-white border border-transparent transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:book-open-page-variant"></span> Audio Bible & Memory
+      </button>
+      <button onclick="switchTab('chatbot', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/20 text-gray-300 hover:text-white border border-transparent transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:chat-processing-outline"></span> Verse Q&A Chat
+      </button>
+      <button onclick="switchTab('calendar', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/20 text-gray-300 hover:text-white border border-transparent transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:calendar-clock"></span> Story & Reminders
+      </button>
+      <button onclick="switchTab('confession', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/20 text-gray-300 hover:text-white border border-transparent transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:format-quote-open"></span> 21-Day Confessions
+      </button>
+      <button onclick="switchTab('hub', this)" class="nav-btn whitespace-nowrap text-xs font-medium px-4 py-2 rounded-xl bg-blue-900/20 text-gray-300 hover:text-white border border-transparent transition-all flex items-center gap-1.5">
+        <span class="iconify" data-icon="mdi:storefront-outline"></span> Bookstore & Counseling
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="max-w-4xl mx-auto w-full p-4 sm:p-6 my-auto flex-grow">
+
+    <!-- MODULE 1: THOUGHT IDENTIFIER (Casting Down Imagination) -->
+    <section id="identifier" class="tab-content active space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+            <span class="iconify text-xl" data-icon="mdi:shield-check"></span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-white">Casting Down Imaginations</h2>
+            <p class="text-xs text-gray-400">Select or check your current intrusive thoughts to receive immediate scriptural defense.</p>
+          </div>
+        </div>
+
+        <!-- Checklist categories -->
+        <div class="space-y-4 mb-6">
+          <div class="space-y-2">
+            <label class="text-xs font-medium text-green-400 uppercase tracking-wider">Select Intrusive Thought / Accusation:</label>
+            <select id="thoughtSelect" onchange="evaluateThought()" class="w-full bg-[#071120] border border-blue-900/80 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-green-500">
+              <option value="">-- Choose a thought to analyze --</option>
+              <option value="alone">"I am completely alone and nobody cares."</option>
+              <option value="giving_up">"I feel like giving up, it's too hard."</option>
+              <option value="not_liked">"I don't like myself / I am full of flaws."</option>
+              <option value="condemned">"God is punishing me for my past mistakes."</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Scriptural Response Box -->
+        <div id="thoughtResponse" class="hidden bg-[#071120] border border-green-500/30 rounded-xl p-4 sm:p-5 space-y-3">
+          <div class="flex items-center gap-2 text-green-400 text-xs font-semibold uppercase tracking-wider">
+            <span class="iconify" data-icon="mdi:sword-cross"></span> Spiritual Weaponry Response
+          </div>
+          <p id="responseDesc" class="text-sm text-gray-200 leading-relaxed"></p>
+          <div class="bg-black/40 border border-blue-900/40 p-3 rounded-lg text-xs text-gray-300 italic" id="responseScripture"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 2: MULTI-LANGUAGE AUDIO BIBLE & SCRIPTURE MEMORIZATION -->
+    <section id="bible" class="tab-content space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+              <span class="iconify text-xl" data-icon="mdi:volume-high"></span>
+            </div>
+            <div>
+              <h2 class="text-lg font-semibold text-white">Audio Bible & Memory Engine</h2>
+              <p class="text-xs text-gray-400">Listen in multiple languages and practice progressive word recall.</p>
+            </div>
+          </div>
+          
+          <!-- Language Selector -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-400">Voice Language:</span>
+            <select id="voiceLang" class="bg-[#071120] border border-blue-900/80 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-green-500">
+              <option value="en-US">English (US)</option>
+              <option value="es-ES">Spanish (ES)</option>
+              <option value="fr-FR">French (FR)</option>
+              <option value="pt-BR">Portuguese (BR)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Verse Navigation -->
+        <div class="flex gap-2 overflow-x-auto pb-1">
+          <button onclick="loadVerse(0)" class="verse-tab px-3 py-1.5 rounded-lg text-xs bg-green-600 text-black font-semibold whitespace-nowrap">Ephesians 6:11</button>
+          <button onclick="loadVerse(1)" class="verse-tab px-3 py-1.5 rounded-lg text-xs bg-blue-900/40 text-gray-300 whitespace-nowrap">Proverbs 4:23</button>
+          <button onclick="loadVerse(2)" class="verse-tab px-3 py-1.5 rounded-lg text-xs bg-blue-900/40 text-gray-300 whitespace-nowrap">Jeremiah 17:9</button>
+          <button onclick="loadVerse(3)" class="verse-tab px-3 py-1.5 rounded-lg text-xs bg-blue-900/40 text-gray-300 whitespace-nowrap">Jeremiah 1:12</button>
+        </div>
+
+        <!-- Active Verse Display -->
+        <div class="bg-[#071120] border border-blue-900/80 rounded-xl p-5 text-center space-y-4">
+          <p id="verseTextDisplay" class="text-base sm:text-lg font-medium text-white leading-relaxed tracking-wide min-h-[80px] flex items-center justify-center"></p>
+          <span id="verseRef" class="text-xs text-green-400 font-semibold block tracking-widest uppercase"></span>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button onclick="playAudio()" class="bg-green-500 hover:bg-green-400 text-black text-xs font-bold px-5 py-2.5 rounded-xl transition-all flex items-center gap-2">
+            <span class="iconify text-base" data-icon="mdi:play-circle"></span> Read Aloud
+          </button>
+          <button onclick="hideWords()" class="bg-blue-900/60 hover:bg-blue-900 text-white text-xs font-semibold px-5 py-2.5 rounded-xl border border-blue-700/50 transition-all flex items-center gap-2">
+            <span class="iconify text-base" data-icon="mdi:eye-off-outline"></span> Hide 3 Words
+          </button>
+          <button onclick="resetVerse()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-4 py-2.5 rounded-xl transition-all">
+            Reset Text
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 3: INTERACTIVE VERSE Q&A CHATBOT -->
+    <section id="chatbot" class="tab-content space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col h-[500px]">
+        <div class="flex items-center gap-3 mb-4 pb-3 border-b border-blue-900/50">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+            <span class="iconify text-xl" data-icon="mdi:chat-question"></span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-white">Verse & Spiritual Concept Q&A</h2>
+            <p class="text-xs text-gray-400">Ask questions regarding the heart, darkness, or mental battles.</p>
+          </div>
+        </div>
+
+        <!-- Chat Log -->
+        <div id="chatLog" class="flex-grow overflow-y-auto space-y-3 pr-2 mb-4 text-xs">
+          <div class="bg-[#071120] border border-blue-900/60 p-3 rounded-xl max-w-[85%] text-gray-300 leading-relaxed">
+            <strong class="text-green-400 block mb-1">Spiritual Guide Assistant:</strong>
+            Grace and peace. Type a question below or select a common prompt (e.g., "heart", "depression", "arguing", "darkness") to examine scriptural wisdom.
+          </div>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="flex gap-2">
+          <input type="text" id="chatInput" placeholder="Ask about a verse or spiritual concept..." class="flex-grow bg-[#071120] border border-blue-900/80 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-green-500">
+          <button onclick="sendChatMessage()" class="bg-green-500 hover:bg-green-400 text-black px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-1">
+            <span class="iconify text-base" data-icon="mdi:send"></span> Send
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4: STORY CALENDAR & REPETITION REMINDER -->
+    <section id="calendar" class="tab-content space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+            <span class="iconify text-xl" data-icon="mdi:calendar-star"></span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-white">Spiritual Breakthrough & Story Calendar</h2>
+            <p class="text-xs text-gray-400">Tap days to review assigned reading and maintain interval repetitions.</p>
+          </div>
+        </div>
+
+        <!-- 7-Day Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" id="calendarGrid">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Repetition Control Panel -->
+        <div class="bg-[#071120] border border-blue-900/80 rounded-xl p-4 sm:p-5 space-y-4">
+          <h3 class="text-xs font-semibold text-green-400 uppercase tracking-wider flex items-center gap-2">
+            <span class="iconify" data-icon="mdi:clock-alert-outline"></span> Repetition Interval Reminder Setup
+          </h3>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            Configure automated interval reminders to trigger screen alerts reminding you to cast down thoughts and speak confessions.
+          </p>
+          <div class="flex flex-wrap items-center gap-3">
+            <select id="intervalSelect" class="bg-[#0e223f] border border-blue-900/80 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-green-500">
+              <option value="1">Every 1 Hour (Intensive)</option>
+              <option value="3" selected>Every 3 Hours (Standard)</option>
+              <option value="6">Every 6 Hours (Balanced)</option>
+            </select>
+            <button onclick="startIntervalReminder()" class="bg-green-500 hover:bg-green-400 text-black text-xs font-bold px-5 py-2.5 rounded-xl transition-all">
+              Activate Reminder System
+            </button>
+            <span id="reminderStatus" class="text-xs text-gray-400 italic">Status: Inactive</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 5: POWER OF CONFESSION & HOLY SPIRIT FELLOWSHIP (21-Day Tracker) -->
+    <section id="confession" class="tab-content space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+            <span class="iconify text-xl" data-icon="mdi:format-quote-open"></span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-white">Power of Confession & 21-Day Habit Tracker</h2>
+            <p class="text-xs text-gray-400">"As a man thinketh in his heart, so is he" (Proverbs 23:7). Track daily spoken declarations.</p>
+          </div>
+        </div>
+
+        <!-- 21 Day Tracker Grid -->
+        <div class="bg-[#071120] border border-blue-900/80 rounded-xl p-4 sm:p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-green-400 uppercase tracking-wider">21-Day Renewal Track</span>
+            <span id="trackerProgress" class="text-xs text-gray-300 font-medium">0 / 21 Days Completed</span>
+          </div>
+          <div class="grid grid-cols-7 gap-2" id="trackerGrid">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 6: BOOKSTORE, BOOKING, & MONETIZATION HUB -->
+    <section id="hub" class="tab-content space-y-6">
+      <div class="bg-[#0e223f] border border-blue-900/60 rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400">
+            <span class="iconify text-xl" data-icon="mdi:storefront-outline"></span>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-white">Bookstore & Private Counseling Hub</h2>
+            <p class="text-xs text-gray-400">Obtain warfare literature and schedule dedicated 1-on-1 spiritual counseling.</p>
+          </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Book Card 1 -->
+          <div class="bg-[#071120] border border-blue-900/60 rounded-xl p-4 flex flex-col justify-between space-y-4">
+            <div class="flex gap-4">
+              <a href="https://amazon.com" target="_blank" class="w-20 h-28 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0 block border border-blue-900/50 hover:opacity-90 transition-opacity">
+                <img src="https://via.placeholder.com/150x200/111/9AFF00?text=Book+1" alt="Book Cover" class="w-full h-full object-cover">
+              </a>
+              <div>
+                <span class="text-[10px] font-semibold text-green-400 uppercase tracking-wider">Bestseller</span>
+                <h3 class="text-sm font-bold text-white mt-1">Crossing The Same Sex Stronghold</h3>
+                <p class="text-[11px] text-gray-400 mt-1">A foundational, spirit-led guide to freedom and identity in Christ.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-blue-900/40">
+              <a href="https://amazon.com" target="_blank" class="bg-blue-900/40 hover:bg-blue-900 text-white text-[11px] font-semibold py-2 px-3 rounded-lg text-center border border-blue-700/40 transition-all flex items-center justify-center gap-1">
+                <span class="iconify" data-icon="mdi:amazon"></span> Paperback
+              </a>
+              <a href="https://paypal.com" target="_blank" class="bg-green-600 hover:bg-green-500 text-black text-[11px] font-bold py-2 px-3 rounded-lg text-center transition-all flex items-center justify-center gap-1">
+                <span class="iconify" data-icon="mdi:download"></span> PDF ($10.99)
+              </a>
+            </div>
+          </div>
+
+          <!-- Book Card 2 -->
+          <div class="bg-[#071120] border border-blue-900/60 rounded-2xl p-4 flex flex-col justify-between space-y-4">
+            <div class="flex gap-4">
+              <a href="https://amazon.com" target="_blank" class="w-20 h-28 bg-gray-800 rounded-lg overflow-hidden flex-shrink-0 block border border-blue-900/50 hover:opacity-90 transition-opacity">
+                <img src="https://via.placeholder.com/150x200/111/9AFF00?text=Book+2" alt="Book Cover" class="w-full h-full object-cover">
+              </a>
+              <div>
+                <span class="text-[10px] font-semibold text-green-400 uppercase tracking-wider">New Release</span>
+                <h3 class="text-sm font-bold text-white mt-1">Breaking Strongholds</h3>
+                <p class="text-[11px] text-gray-400 mt-1">Practical spiritual weaponry for tearing down mental fortresses.</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-blue-900/40">
+              <a href="https://amazon.com" target="_blank" class="bg-blue-900/40 hover:bg-blue-900 text-white text-[11px] font-semibold py-2 px-3 rounded-lg text-center border border-blue-700/40 transition-all flex items-center justify-center gap-1">
+                <span class="iconify" data-icon="mdi:amazon"></span> Paperback
+              </a>
+              <a href="https://paypal.com" target="_blank" class="bg-green-600 hover:bg-green-500 text-black text-[11px] font-bold py-2 px-3 rounded-lg text-center transition-all flex items-center justify-center gap-1">
+                <span class="iconify" data-icon="mdi:download"></span> PDF ($18.99)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointment Booking Section -->
+        <div class="bg-[#071120] border border-blue-900/80 rounded-xl p-5 text-center space-y-3">
+          <h3 class="text-sm font-bold text-white">Need Personal Deliverance & Guidance?</h3>
+          <p class="text-xs text-gray-300 max-w-md mx-auto">
+            Schedule a private 1-on-1 counseling session grounded entirely in Scripture and led by the Holy Spirit.
+          </p>
+          <a href="7-counseling.html" class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-black text-xs font-bold px-6 py-3 rounded-xl transition-all shadow-lg">
+            <span class="iconify text-base" data-icon="mdi:calendar-account"></span> Schedule a Private 1-on-1 Counseling Session
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL ALERT FOR INTERVAL REMINDERS -->
+  <div id="reminderModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-[#0e223f] border border-green-500/50 rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
+      <div class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto text-2xl">
+        <span class="iconify" data-icon="mdi:alarm-check"></span>
+      </div>
+      <h3 class="text-base font-bold text-white">Time to Cast Down Thoughts!</h3>
+      <p class="text-xs text-gray-300 leading-relaxed bg-[#071120] p-3 rounded-xl border border-blue-900/60">
+        "Repeat your spoken confession now: <em>'I take every thought captive to the obedience of Christ. I submit to God, I resist the devil, and he must flee!'</em>"
+      </p>
+      <button onclick="closeReminderModal()" class="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs py-3 rounded-xl transition-all">
+        Amen & Dismiss
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#071120] border-t border-blue-900/50 py-4 text-center text-xs text-gray-400">
+    <p>Living By The Word By Faith © 2026 • Built for Spiritual Breakthrough</p>
+  </footer>
+
+  <!-- CORE APP LOGIC & JAVASCRIPT -->
+  <script>
+    // Tab Switching Logic
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('bg-blue-900/45', 'text-green-400', 'border-green-500/30');
+        el.classList.add('bg-blue-900/20', 'text-gray-300', 'border-transparent');
+      });
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.remove('bg-blue-900/20', 'text-gray-300', 'border-transparent');
+      btn.classList.add('bg-blue-900/40', 'text-green-400', 'border-green-500/30');
+    }
+
+    // 1. Thought Identifier Logic
+    const thoughtResponses = {
+      alone: {
+        desc: "The adversary attempts to isolate you in despair, but God's Word declares His permanent presence and care.",
+        scripture: "Psalm 68:6 — 'God settin' the solitary in families...' / Hebrews 13:5 — 'I will never leave thee, nor forsake thee.'"
+      },
+      giving_up: {
+        desc: "Weariness is a tactic of spiritual exhaustion. Cast down the imagination that you lack strength and lean upon divine power.",
+        scripture: "Galatians 6:9 — 'And let us not be weary in well doing: for in due season we shall reap, if we faint not.'"
+      },
+      not_liked: {
+        desc: "Accusations against your personal identity originate from the accuser of the brethren. You are fearfully and wonderfully made.",
+        scripture: "Psalm 139:14 — 'I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works...'"
+      },
+      condemned: {
+        desc: "There is zero condemnation for those in Christ Jesus. Job endured false accusations, yet God vindicated him completely.",
+        scripture: "Romans 8:1 — 'There is therefore now no condemnation to them which are in Christ Jesus...'"
+      }
+    };
+
+    function evaluateThought() {
+      const val = document.getElementById('thoughtSelect').value;
+      const box = document.getElementById('thoughtResponse');
+      if (!val) {
+        box.classList.add('hidden');
+        return;
+      }
+      const data = thoughtResponses[val];
+      document.getElementById('responseDesc').textContent = data.desc;
+      document.getElementById('responseScripture').textContent = data.scripture;
+      box.classList.remove('hidden');
+    }
+
+    // 2. Audio Bible & Memory Engine Logic
+    const verses = [
+      { text: "Put on the whole armour of God, that ye may be able to stand against the wiles of the devil.", ref: "Ephesians 6:11" },
+      { text: "Keep thy heart with all diligence; for out of it are the issues of life.", ref: "Proverbs 4:23" },
+      { text: "The heart is deceitful above all things, and desperately wicked: who can know it?", ref: "Jeremiah 17:9" },
+      { text: "Then said the LORD to me, Thou hast well seen: for I will hasten my word to perform it.", ref: "Jeremiah 1:12" }
+    ];
+
+    let currentVerseIdx = 0;
+    let workingText = verses[0].text;
+
+    function loadVerse(idx) {
+      currentVerseIdx = idx;
+      workingText = verses[idx].text;
+      document.getElementById('verseTextDisplay').textContent = workingText;
+      document.getElementById('verseRef').textContent = verses[idx].ref;
+      document.querySelectorAll('.verse-tab').forEach((el, i) => {
+        if (i === idx) {
+          el.className = "verse-tab px-3 py-1.5 rounded-lg text-xs bg-green-500 text-black font-semibold whitespace-nowrap";
+        } else {
+          el.className = "verse-tab px-3 py-1.5 rounded-lg text-xs bg-blue-900/40 text-gray-300 whitespace-nowrap";
+        }
+      });
+    }
+    loadVerse(0);
+
+    function playAudio() {
+      if (!('speechSynthesis' in window)) {
+        alert("Speech synthesis is not supported by your browser.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(workingText);
+      utterance.lang = document.getElementById('voiceLang').value;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function hideWords() {
+      let words = workingText.split(" ");
+      let blankedCount = 0;
+      let indices = [];
+      for(let i=0; i<words.length; i++) {
+        if(!words[i].includes("____")) indices.push(i);
+      }
+      // shuffle and hide up to 3
+      indices.sort(() => Math.random() - 0.5);
+      for(let i=0; i<Math.min(3, indices.length); i++) {
+        words[indices[i]] = "____";
+      }
+      workingText = words.join(" ");
+      document.getElementById('verseTextDisplay').textContent = workingText;
+    }
+
+    function resetVerse() {
+      loadVerse(currentVerseIdx);
+    }
+
+    // 3. Chatbot Logic
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim().toLowerCase();
+      if (!text) return;
+
+      const log = document.getElementById('chatLog');
+      
+      // Append user msg
+      const userDiv = document.createElement('div');
+      userDiv.className = "bg-blue-950/60 border border-blue-900/60 p-3 rounded-xl max-w-[85%] ml-auto text-white leading-relaxed";
+      userDiv.innerHTML = `<strong class="text-blue-300 block mb-1">You:</strong> ${input.value}`;
+      log.appendChild(userDiv);
+
+      let reply = "The Holy Spirit illuminates the heart-vault when we surrender our thoughts to Scripture. As Jesus stated in John 15:5, 'Without me ye can do nothing.' Continue anchoring your daily life in His living Word.";
+      
+      if (text.includes("heart")) {
+        reply = "Jeremiah 17:9 teaches that the heart is deceitful above all things. Jesus cleanses this inner vault when we invite Him in, replacing worldly arguments with divine truth.";
+      } else if (text.includes("depression") || text.includes("darkness")) {
+        reply = "Spiritual heaviness is lifted through praise and the shield of faith. Cast down imaginations of hopelessness and declare Psalm 23 over your mind.";
+      } else if (text.includes("arguing") || text.includes("strife")) {
+        reply = "Strife originates from pride and unbridled thoughts. Submit your mind to God (James 4:7), letting go of the need to win arguments, and walk in supernatural peace.";
+      }
+
+      setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = "bg-[#071120] border border-blue-900/60 p-3 rounded-xl max-w-[85%] text-gray-300 leading-relaxed";
+        botDiv.innerHTML = `<strong class="text-green-400 block mb-1">Spiritual Guide Assistant:</strong> ${reply}`;
+        log.appendChild(botDiv);
+        log.scrollTop = log.scrollHeight;
+      }, 400);
+
+      input.value = "";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // 4. Calendar & Repetition Reminders
+    const storyCalendar = [
+      { day: 1, title: "Day 1: The Armor of God", desc: "Ephesians 6 — Standing firm in spiritual warfare." },
+      { day: 2, title: "Day 2: Guarding the Heart", desc: "Proverbs 4 — Protecting the gateway of your thoughts." },
+      { day: 3, title: "Day 3: Overcoming Job's Trials", desc: "Job 1-2 — Maintaining faith through intense testing." },
+      { day: 4, title: "Day 4: Renewing the Mind", desc: "Romans 12 — Transforming cognitive patterns." },
+      { day: 5, title: "Day 5: Submitting to God", desc: "James 4 — Resisting the adversary effectively." },
+      { day: 6, title: "Day 6: The Power of the Tongue", desc: "Proverbs 18 — Life and death in spoken words." },
+      { day: 7, title: "Day 7: Victory in Christ", desc: "Colossians 2 — Triumphing over principalities." }
+    ];
+
+    const calGrid = document.getElementById('calendarGrid');
+    storyCalendar.forEach(item => {
+      const card = document.createElement('div');
+      card.className = "bg-[#071120] border border-blue-900/60 rounded-xl p-3 flex flex-col justify-between hover:border-green-500/50 transition-colors";
+      card.innerHTML = `
+        <div>
+          <span class="text-[10px] font-semibold text-green-400 uppercase">Day ${item.day}</span>
+          <h4 class="text-xs font-bold text-white mt-1">${item.title}</h4>
+          <p class="text-[11px] text-gray-400 mt-1 line-clamp-2">${item.desc}</p>
+        </div>
+        <span class="text-[10px] text-blue-400 mt-3 block font-semibold">Tap to Read →</span>
+      `;
+      calGrid.appendChild(card);
+    });
+
+    let reminderIntervalRef = null;
+    function startIntervalReminder() {
+      const hours = parseInt(document.getElementById('intervalSelect').value);
+      if (reminderIntervalRef) clearInterval(reminderIntervalRef);
+      
+      // For demonstration convenience, we scale hours to seconds or keep interval logic active
+      // (Using hours * 3600 * 1000 in real production, or 10 seconds for quick testing if desired. We use correct interval math).
+      const ms = hours * 60 * 60 * 1000;
+      
+      reminderIntervalRef = setInterval(() => {
+        document.getElementById('reminderModal').classList.remove('hidden');
+      }, ms);
+
+      document.getElementById('reminderStatus').textContent = `Status: Active (Every ${hours} Hours)`;
+      document.getElementById('reminderStatus').className = "text-xs text-green-400 font-semibold italic";
+      alert(`Repetition reminder active! You will receive prompts every ${hours} hour(s).`);
+    }
+
+    function closeReminderModal() {
+      document.getElementById('reminderModal').classList.add('hidden');
+    }
+
+    // 5. 21-Day Habit Tracker
+    const trackerGrid = document.getElementById('trackerGrid');
+    let completedDays = JSON.parse(localStorage.getItem('lwbf_tracker') || '[]');
+
+    function renderTracker() {
+      trackerGrid.innerHTML = '';
+      for(let i=1; i<=21; i++) {
+        const isChecked = completedDays.includes(i);
+        const cell = document.createElement('button');
+        cell.className = `h-10 rounded-lg text-xs font-bold flex flex-col items-center justify-center border transition-all ${
+          isChecked ? 'bg-green-500 text-black border-green-400 shadow-md' : 'bg-[#0e223f] text-gray-300 border-blue-900/60 hover:border-green-500/40'
+        }`;
+        cell.innerHTML = `<span>${i}</span><span class="text-[9px] font-normal">${isChecked ? 'Done' : 'Open'}</span>`;
+        cell.onclick = () => toggleDay(i);
+        trackerGrid.appendChild(cell);
+      }
+      document.getElementById('trackerProgress').textContent = `${completedDays.length} / 21 Days Completed`;
+    }
+
+    function toggleDay(dayNum) {
+      if (completedDays.includes(dayNum)) {
+        completedDays = completedDays.filter(d => d !== dayNum);
+      } else {
+        completedDays.push(dayNum);
+      }
+      localStorage.setItem('lwbf_tracker', JSON.stringify(completedDays));
+      renderTracker();
+    }
+    renderTracker();
+  </script>
+</body>
+</html>
