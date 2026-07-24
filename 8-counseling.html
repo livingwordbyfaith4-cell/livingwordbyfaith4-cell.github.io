@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counseling & Deliverance Assessment — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="1-index.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a>
+      <div class="hidden md:flex items-center gap-5 lg:gap-7">
+        <a href="1-index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Home</a>
+        <a href="2-services.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Services</a>
+        <a href="3A-books.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Books</a>
+        <a href="4-digital-products.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Digital Products</a>
+        <a href="5-about.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">About</a>
+        <a href="6-contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Contact</a>
+        <!-- COUNSELING BUTTON IS GREEN ON THIS PAGE -->
+        <a href="7-counseling.html" class="text-sm font-medium text-[#9AFF00]">Counseling</a>
+        <a href="8-testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Testimonies</a>
+        <a href="7-Donation.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Donation</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FULL-WIDTH BANNER IMAGE -->
+  <div class="w-full pt-20">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative border-b border-white/10">
+      <img src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/8-counseling.png" alt="Counseling & Deliverance Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Counseling+Banner'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <section class="py-16 px-6 md:px-12 max-w-4xl mx-auto">
+    
+    <!-- Intro Card / Booking Form -->
+    <div class="bg-neutral-950 border border-white/5 rounded-3xl p-8 md:p-12 mb-10 shadow-2xl">
+      <div class="text-center mb-8">
+        <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">Professional Biblical Guidance</span>
+        <h2 class="text-3xl font-semibold tracking-tight text-white mt-2">Book a Consultation Session</h2>
+        <p class="text-sm text-neutral-400 mt-2">All information submitted is strictly confidential under ministry privilege.</p>
+      </div>
+
+      <form onsubmit="alert('Your confidential counseling intake form and assessment checklist have been securely submitted to Living Word By Faith.'); event.preventDefault();" class="space-y-6">
+        
+        <!-- Standard Contact Details -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Full Name *</label>
+            <input type="text" required placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+          </div>
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Email Address *</label>
+            <input type="email" required placeholder="you@email.com" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Cell Phone *</label>
+            <input type="tel" required placeholder="(555) 000-0000" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+          </div>
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Marital Status *</label>
+            <select required class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+              <option value="">Select status...</option>
+              <option value="single">Single</option>
+              <option value="married">Married</option>
+              <option value="divorced">Divorced</option>
+              <option value="remarried">Remarried</option>
+              <option value="widowed">Widowed</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Select Session Type *</label>
+            <select required class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+              <option value="">Choose session...</option>
+              <option value="virtual">Virtual Session (60 min) — $50</option>
+              <option value="inperson">In-Person Session (60 min) — $75</option>
+              <option value="free">Free Intro Call (15 min)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- TOGGLE ASSESSMENT SHEET BUTTON -->
+        <div class="pt-6 border-t border-white/10 text-center">
+          <p class="text-xs text-neutral-400 mb-3">Preparing for deliverance or deep counseling? Open our intake questionnaire and spiritual stronghold checklist below.</p>
+          <button type="button" onclick="toggleAssessmentSheet()" class="w-full sm:w-auto bg-white/10 border border-[#9AFF00]/40 text-[#9AFF00] hover:bg-[#9AFF00]/10 font-semibold text-sm px-8 py-4 rounded-2xl transition-all inline-flex items-center justify-center gap-2">
+            <span class="iconify text-xl" data-icon="mdi:clipboard-text-search-outline"></span>
+            <span id="assessmentBtnText">📊 Open Private Roots & Spiritual Assessment Sheet</span>
+          </button>
+        </div>
+
+        <!-- EXPANDABLE ASSESSMENT SHEET CONTAINER (INCLUDES PDF INTAKE & 53 GROUPS) -->
+        <div id="assessmentContainer" class="hidden mt-6 pt-6 border-t border-white/10 space-y-8 text-left">
+          
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-xs text-neutral-300 leading-relaxed space-y-2">
+            <strong class="text-white text-sm block mb-1">Confidential Information Cover Sheet Notice:</strong>
+            <p>It is the desire of this ministry staff to help you and effectively move you onward in your walk with God. Through the power of God's Holy Spirit and by His Word, people are changed and transformed. Please complete the following background questions and check any relevant strongholds below.</p>
+          </div>
+
+          <!-- PART 1: INTAKE BACKGROUND QUESTIONS FROM PDF -->
+          <div class="space-y-4 bg-neutral-900/50 border border-white/5 rounded-2xl p-6">
+            <h3 class="text-sm font-semibold text-[#9AFF00] uppercase tracking-wider">Part 1: Background & Spiritual History</h3>
+            
+            <div>
+              <label class="text-xs text-neutral-300 block mb-1">1. What is your church background? Denomination(s) and/or church experience?</label>
+              <input type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white">
+            </div>
+
+            <div>
+              <label class="text-xs text-neutral-300 block mb-1">2. When did you accept Jesus Christ into your life? Briefly describe your conversion:</label>
+              <textarea rows="2" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs text-white resize-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="text-xs text-neutral-300 block mb-1">3. Was your life really changed?</label>
+                <select class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+                  <option value="">Select...</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs text-neutral-300 block mb-1">4. Water baptized since conversion?</label>
+                <select class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+                  <option value="">Select...</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-xs text-neutral-300 block mb-1">5. Assurance of salvation?</label>
+                <select class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+                  <option value="">Select...</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs text-neutral-300 block mb-1">87. What prompted you to seek spiritual counseling at this time?</label>
+              <textarea rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs text-white resize-none" placeholder="Describe what is going on in your life..."></textarea>
+            </div>
+          </div>
+
+          <!-- PART 2: THE 53 DEMON GROUPINGS & STRONGHOLDS -->
+          <div>
+            <h3 class="text-sm font-semibold text-[#9AFF00] uppercase tracking-wider mb-2">Part 2: Spiritual Strongholds & Oppression Checklist</h3>
+            <p class="text-xs text-neutral-400 mb-4">Check any items below that you have struggled with in the past or currently experience.</p>
+            
+            <div id="groupsAccordionContainer" class="space-y-3">
+              <!-- Dynamically injected accordion groups -->
+            </div>
+          </div>
+
+          <!-- PART 3: "WHAT DO I THINK?" SELF-EVALUATION CHECKBOXES -->
+          <div class="space-y-4 bg-neutral-900/50 border border-white/5 rounded-2xl p-6">
+            <h3 class="text-sm font-semibold text-[#9AFF00] uppercase tracking-wider">Part 3: What Do I Think? (Self-Evaluation)</h3>
+            <p class="text-xs text-neutral-400">Please check any statement that describes your thinking about yourself:</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-300">
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I am all alone." class="text-[#9AFF00] rounded"> I am all alone.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I don't matter." class="text-[#9AFF00] rounded"> I don’t matter.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="God has forsaken me, too." class="text-[#9AFF00] rounded"> God has forsaken me, too.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I cannot trust anyone." class="text-[#9AFF00] rounded"> I cannot trust anyone.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I am so stupid, ignorant, an idiot." class="text-[#9AFF00] rounded"> I am so stupid, ignorant, an idiot.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="It was all my fault." class="text-[#9AFF00] rounded"> It was all my fault.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I am going to die." class="text-[#9AFF00] rounded"> I am going to die.
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 cursor-pointer">
+                <input type="checkbox" name="thought_patterns" value="I just want to die." class="text-[#9AFF00] rounded"> I just want to die.
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <button type="submit" class="w-full bg-[#9AFF00] text-black font-semibold text-sm py-4 rounded-xl hover:bg-[#88e000] shadow-[0_0_25px_-5px_rgba(154,255,0,0.5)] transition-all mt-6">
+          Confirm Counseling & Assessment Booking
+        </button>
+
+      </form>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center">
+    <p class="text-xs text-neutral-500 italic mb-2">“The Spirit of the Sovereign Lord is on me... to proclaim freedom for the captives.” — Isaiah 61:1-2</p>
+    <p class="text-xs text-neutral-600">© 2026 Living Word By Faith • Christ Cathedral Counseling Intake</p>
+  </footer>
+
+  <!-- ASSESSMENT SHEET BUILDER SCRIPT -->
+  <script>
+    function toggleAssessmentSheet() {
+      const container = document.getElementById('assessmentContainer');
+      const btnText = document.getElementById('assessmentBtnText');
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        btnText.textContent = '📊 Close Private Assessment Sheet';
+        container.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        container.classList.add('hidden');
+        btnText.textContent = '📊 Open Private Roots & Spiritual Assessment Sheet';
+      }
+    }
+
+    // Complete Extracted Data from Appendix G (53 Groups)
+    const demonGroups = [
+      { title: "1. BITTERNESS", items: ["Resentment", "Hatred", "Unforgiveness", "Violence", "Temper", "Anger", "Retaliation", "Murder", "Self Pity", "Loneliness", "Timidity", "Shyness", "Inadequacy", "Ineptness", "Burden", "Disgust"] },
+      { title: "2. REBELLION", items: ["Self-will", "Stubbornness", "Disobedience", "Anti-submissiveness"] },
+      { title: "3. STRIFE", items: ["Contention", "Bickering", "Argument", "Quarreling", "Fighting"] },
+      { title: "4. CONTROL", items: ["Possessiveness", "Dominance", "Witchcraft"] },
+      { title: "5. RETALIATION", items: ["Destruction", "Spite", "Hatred", "Sadism", "Hurt", "Cruelty"] },
+      { title: "6. ACCUSATION", items: ["Judging", "Criticism", "Faultfinding"] },
+      { title: "7. REJECTION", items: ["Fear of Rejection", "Self-rejection"] },
+      { title: "8. INSECURITY", items: ["Inferiority"] },
+      { title: "9. JEALOUSY", items: ["Envy", "Suspicion", "Distrust", "Selfishness"] },
+      { title: "10. WITHDRAWAL", items: ["Pouting", "Daydreaming", "Fantasy", "Pretension", "Unreality"] },
+      { title: "11. ESCAPE", items: ["Indifference", "Stoicism", "Passivity", "Sleepiness", "Alcohol", "Drugs"] },
+      { title: "12. PASSIVITY", items: ["Funk", "Indifference", "Listlessness", "Lethargy"] },
+      { title: "13. DEPRESSION", items: ["Despair", "Despondency", "Discouragement", "Defeatism", "Dejection", "Hopelessness", "Suicide", "Death", "Insomnia", "Morbidity"] },
+      { title: "14. HEAVINESS", items: ["Gloom"] },
+      { title: "15. WORRY", items: ["Anxiety", "Fear", "Dread", "Apprehension"] },
+      { title: "16. NERVIOUSNESS", items: ["Tension", "Headache", "Nervous habits", "Restlessness", "Excitement", "Insomnia", "Roving"] },
+      { title: "17. SENSITIVENESS", items: ["Self-awareness", "Fear of man", "Fear of disapproval"] },
+      { title: "18. PERSECUTION", items: ["Unfairness", "Fear of judgment", "Fear of condemnation", "Fear of accusation", "Fear of reproof", "Sensitiveness"] },
+      { title: "19. MENTAL ILLNESS", items: ["Insanity", "Madness", "Mania", "Retardation", "Senility", "Schizophrenia", "Paranoia", "Hallucinations"] },
+      { title: "20. SCHIZOPHRENIA", items: ["Many various demons", "See chapter 21 of Pigs in the Parlor"] },
+      { title: "21. PARANOIA", items: ["Jealousy", "Envy", "Suspicion", "Distrust", "Persecution", "Fears", "Confrontation"] },
+      { title: "22. CONFUSION", items: ["Frustration", "Incoherence", "Forgetfulness"] },
+      { title: "23. DOUBT", items: ["Unbelief", "Skepticism"] },
+      { title: "24. INDECISION", items: ["Procrastination", "Compromise", "Confusion", "Forgetfulness", "Indifference"] },
+      { title: "25. SELF-DECEPTION", items: ["Self-delusion", "Self-deduction", "Pride"] },
+      { title: "26. MIND-BINDING", items: ["Confusion", "Fear of man", "Fear of failure", "Occult spirits", "Spiritism spirits"] },
+      { title: "27. MIND IDOLATRY", items: ["Intellectualism", "Rationalization", "Pride", "Ego"] },
+      { title: "28. FEARS", items: ["Phobias (All kinds)", "Hysteria"] },
+      { title: "29. FEAR OF AUTHORITY", items: ["Lying", "Deceit"] },
+      { title: "30. PRIDE", items: ["Ego", "Vanity", "Self-righteousness", "Haughtiness", "Importance", "Arrogance"] },
+      { title: "31. AFFECTATION", items: ["Theatrics", "Playacting", "Sophistication", "Pretension"] },
+      { title: "32. COVETOUSNESS", items: ["Stealing", "Kleptomania", "Material lust", "Greed", "Discontent"] },
+      { title: "33. PERFECTION", items: ["Pride", "Vanity", "Ego", "Frustration", "Criticism", "Irritability", "Intolerance", "Anger"] },
+      { title: "34. COMPETITION", items: ["Driving", "Argument", "Pride", "Ego"] },
+      { title: "35. FALSE BURDEN", items: ["False responsibility", "False compassion"] },
+      { title: "36. IMPATIENCE", items: ["Agitation", "Frustration", "Intolerance", "Resentment", "Criticism"] },
+      { title: "37. GRIEF", items: ["Sorrow", "Heartache", "Heartbreak", "Crying", "Sadness", "Cruel"] },
+      { title: "38. FATIGUE", items: ["Tiredness", "Weariness", "Laziness"] },
+      { title: "39. INFIRMITY", items: ["May include any disease or sickness"] },
+      { title: "40. DEATH", items: ["Death spirits"] },
+      { title: "41. INHERITANCE", items: ["Physical", "Mental", "Emotional", "Curses"] },
+      { title: "42. HYPERACTIVITY", items: ["Restlessness", "Driving pressure"] },
+      { title: "43. CURSING", items: ["Blasphemy", "Course jesting", "Gossip", "Criticism", "Backbiting", "Mockery", "Belittling", "Railing"] },
+      { title: "44. ADDICTIVE & COMPULSIVE", items: ["Nicotine", "Alcohol", "Drugs", "Medications", "Caffeine", "Gluttony"] },
+      { title: "45. GLUTTONY", items: ["Nervousness", "Compulsive eating", "Resentment", "Frustration", "Idleness", "Self-pity", "Self-reward"] },
+      { title: "46. SELF-ACCUSATION", items: ["Self-hatred", "Self-condemnation"] },
+      { title: "47. GUILT", items: ["Condemnation", "Shame", "Unworthiness", "Embarrassment"] },
+      { title: "48. SEXUAL IMPURITY", items: ["Lust", "Fantasy lust", "Masturbation", "Homosexuality", "Lesbianism", "Adultery", "Fornication", "Incest", "Harlotry", "Rape", "Exposure", "Frigidity"] },
+      { title: "49. CULTS", items: ["Jehovah’s Witnesses", "Christian Science", "Rosicrucianism", "Theosophy", "Urantia", "Subud", "Unity", "Mormonism", "Bahaism", "Unitarianism", "Omit blood atonement groups"] },
+      { title: "50. OCCULT", items: ["Ouija Board", "Palmistry", "Handwriting analysis", "ESP", "Hypnotism", "Horoscope", "Astrology", "Levitation", "Fortune telling", "Water witching", "Tarot cards", "Pendulum", "Witchcraft", "Black magic", "White magic", "Conjuration", "Incantation", "Charms", "Fetishes"] },
+      { title: "51. RELIGIOUS", items: ["Ritualism", "Formalism", "Legalism", "Doctrinal obsession", "Seduction", "Doctrinal error", "Fear of god", "Fear of hell", "Fear of lost salvation", "Religiosity"] },
+      { title: "52. SPIRITISM", items: ["Séance", "Spirit guide", "Necromancy"] },
+      { title: "53. FALSE RELIGIONS", items: ["Buddhism", "Taoism", "Hinduism", "Islam", "Shintoism", "Confucianism"] }
+    ];
+
+    const accordionWrapper = document.getElementById('groupsAccordionContainer');
+    
+    demonGroups.forEach((group, index) => {
+      const div = document.createElement('div');
+      div.className = 'border border-white/10 rounded-2xl bg-neutral-900 overflow-hidden';
+      
+      let itemsHtml = '';
+      group.items.forEach(item => {
+        itemsHtml += `
+          <label class="flex items-center gap-3 text-xs text-neutral-300 hover:text-white cursor-pointer bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <input type="checkbox" name="strongholds" value="${group.title} - ${item}" class="w-4 h-4 rounded bg-neutral-900 border-white/20 text-[#9AFF00] focus:ring-0">
+            <span>${item}</span>
+          </label>
+        `;
+      });
+
+      div.innerHTML = `
+        <button type="button" onclick="toggleGroup(${index})" class="w-full px-6 py-4 flex items-center justify-between text-left text-sm font-semibold text-white hover:bg-white/5 transition-colors">
+          <span>${group.title}</span>
+          <span id="icon-${index}" class="iconify text-lg text-neutral-400 transition-transform duration-300" data-icon="mdi:chevron-down"></span>
+        </button>
+        <div id="content-${index}" class="hidden px-6 pb-6 grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-white/5">
+          ${itemsHtml}
+        </div>
+      `;
+      accordionWrapper.appendChild(div);
+    });
+
+    function toggleGroup(index) {
+      const content = document.getElementById(`content-${index}`);
+      const icon = document.getElementById(`icon-${index}`);
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+  </script>
+
+</body>
+</html>

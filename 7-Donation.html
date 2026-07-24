@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    .amount-btn.active { background-color: rgba(154, 255, 0, 0.2); border-color: #9AFF00; color: #9AFF00; }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="1-index.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a>
+      <div class="hidden md:flex items-center gap-5 lg:gap-7">
+        <a href="1-index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Home</a>
+        <a href="2-services.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Services</a>
+        <a href="3A-books.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Books</a>
+        <a href="4-digital-products.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Digital Products</a>
+        <a href="5-about.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">About</a>
+        <a href="6-contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Contact</a>
+        <a href="7-counseling.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Counseling</a>
+        <a href="8-testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Testimonies</a>
+        <!-- DONATION BUTTON IS GREEN ON THIS PAGE -->
+        <a href="7a-Donation.html" class="text-sm font-medium text-[#9AFF00]">Donation</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FULL-WIDTH BANNER IMAGE -->
+  <div class="w-full pt-20">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative border-b border-white/10">
+      <img src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/7-Donation.png" alt="Donation Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Donation+Banner'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+    </div>
+  </div>
+
+  <!-- DONATION SECTION -->
+  <section class="py-32 px-6 md:px-12 max-w-4xl mx-auto">
+    <div class="bg-neutral-950 border border-white/5 rounded-3xl p-8 md:p-14 shadow-2xl">
+      
+      <!-- Title Header & Location Subheader -->
+      <div class="text-center mb-10">
+        <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">Partner With Us</span>
+        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight mt-3">Support The Promised Land Vision</h1>
+        <p class="text-sm md:text-base text-neutral-400 mt-2">A Self-Sustaining Community Project in Florida</p>
+      </div>
+
+      <!-- Project Description Section -->
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-10 text-neutral-300 text-sm md:text-base leading-relaxed space-y-4">
+        <p>
+          Your generous financial support directly advances <strong>The Promised Land</strong>—a comprehensive 10-acre community layout in Florida dedicated to sustainable housing, organic farming, and cooperative manufacturing. 
+        </p>
+        <p>
+          By operating on a 5-hour daily community contribution model, our residents balance labor, livestock, and agriculture goals with shared product sales revenue distribution. Contributions help fund immediate infrastructure, resource development, and our long-term vision to acquire adjacent acreage for future expansion.
+        </p>
+      </div>
+
+      <!-- Donation Form Container -->
+      <form onsubmit="alert('Thank you for your secure donation to Living Word By Faith!'); event.preventDefault();" class="space-y-8">
+        
+        <!-- Donation Purpose Dropdown -->
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Select Donation Purpose *</label>
+          <select required class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+            <option value="">Choose a fund or program...</option>
+            <option value="building-fund">The Promised Land Building Fund (Land, Facilities & Permanent Home)</option>
+            <option value="outreach">Ministry Outreach Programs (Evangelism & Revival Events)</option>
+            <option value="feeding">The Feeding Ministry - Hunger Relief (Food Distribution)</option>
+            <option value="counseling">Crisis Counseling Support (Accessible & Free Support)</option>
+            <option value="general">Where Needed Most (General Ministry Fund)</option>
+          </select>
+        </div>
+
+        <!-- Donation Amount Selector -->
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-3 uppercase tracking-wider">Select Donation Amount</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+            <button type="button" onclick="selectAmount(this, 5)" class="amount-btn bg-white/5 border border-white/10 text-sm font-semibold py-3 rounded-xl hover:border-[#9AFF00] transition-all">$5</button>
+            <button type="button" onclick="selectAmount(this, 25)" class="amount-btn bg-white/5 border border-white/10 text-sm font-semibold py-3 rounded-xl hover:border-[#9AFF00] transition-all">$25</button>
+            <button type="button" onclick="selectAmount(this, 50)" class="amount-btn bg-white/5 border border-white/10 text-sm font-semibold py-3 rounded-xl hover:border-[#9AFF00] transition-all">$50</button>
+            <button type="button" onclick="selectAmount(this, 100)" class="amount-btn active bg-white/5 border border-[#9AFF00]/50 text-[#9AFF00] text-sm font-semibold py-3 rounded-xl transition-all">$100</button>
+          </div>
+          <div>
+            <input type="number" id="customAmount" placeholder="Enter other amount" min="1" onfocus="clearSelection()" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-neutral-600 focus:outline-none focus:border-[#9AFF00]">
+          </div>
+        </div>
+
+        <!-- Donation Form -->
+        <div class="border-t border-white/10 pt-6 space-y-4">
+          <h3 class="text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"> Donation </h3>
+          
+          <div>
+            <label class="block text-xs font-medium text-neutral-400 mb-1">Full Name</label>
+            <input type="text" required placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-neutral-400 mb-1">Card Number</label>
+            <input type="text" required placeholder="4242 •••• •••• ••••" maxlength="19" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-neutral-400 mb-1">Expiration</label>
+              <input type="text" required placeholder="MM/YY" maxlength="5" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-neutral-400 mb-1">CVV</label>
+              <input type="password" required placeholder="123" maxlength="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-neutral-400 mb-1">Zip Code</label>
+              <input type="text" required placeholder="33101" maxlength="10" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+            </div>
+          </div>
+        </div>
+
+        <!-- Donor Message Box -->
+        <div>
+          <label class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Leave a Message or Prayer Request <span class="text-neutral-600 font-normal">(Optional)</span></label>
+          <textarea rows="3" placeholder="Write any notes or special dedications for your gift..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00] resize-none"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-[#9AFF00] text-black font-semibold text-sm py-4 rounded-xl hover:bg-[#88e000] shadow-[0_0_25px_-5px_rgba(154,255,0,0.5)] transition-all">
+          Submit Secure Donation
+        </button>
+      </form>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center space-y-2">
+    <p class="text-xs text-neutral-500 italic">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+    <p class="text-xs text-neutral-400">Official Ministry Contact Email: <strong class="text-white underline">livingwordbyfaith4@gmail.com</strong></p>
+    <p class="text-xs text-neutral-600 pt-2">© 2026 Living Word By Faith • The Promised Land Project</p>
+  </footer>
+
+  <!-- SCRIPT FOR AMOUNT SELECTOR BUTTONS -->
+  <script>
+    function selectAmount(btn, val) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active', 'border-[#9AFF00]/50', 'text-[#9AFF00]'));
+      btn.classList.add('active', 'border-[#9AFF00]/50', 'text-[#9AFF00]');
+      document.getElementById('customAmount').value = '';
+    }
+    function clearSelection() {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active', 'border-[#9AFF00]/50', 'text-[#9AFF00]'));
+    }
+  </script>
+
+</body>
+</html>
