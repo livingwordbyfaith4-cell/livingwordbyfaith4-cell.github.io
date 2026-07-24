@@ -3,138 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services — Living Word By Faith</title>
+  <title>Book Library & Details — Living Word By Faith</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }</style>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+  </style>
 </head>
 <body class="bg-black text-white antialiased">
-    <!-- NAVIGATION -->
- <nav class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5"> 
-  <div class="max-w-7xl mx-auto w-full flex items-center justify-between"> 
-    <a href="index.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a> 
-    
-    <div class="hidden md:flex items-center gap-6 lg:gap-8"> 
-      <!-- HOME IS NOW NEUTRAL -->
-      <a href="index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Home</a> 
-      
-      <a href="services.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Services</a> 
-      
-      <!-- BOOKS IS NOW GREEN (ACTIVE) -->
-      <a href="books.html" class="text-sm font-medium text-[#9AFF00]">Books</a> 
-      
-      <a href="about.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">About</a> 
-      
-      <a href="contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Contact</a> 
-      
-      <a href="Testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Testimonies</a> 
-      
-      <!-- FIXED SPACE: " Donate.html" to "donate.html" -->
-      <a href="donate.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Donation</a> 
-      
-      <a href="counseling.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Counseling</a> 
-      
-      <!-- FIXED SPACE: "books Detail.html" to "books-detail.html" -->
-      <a href="books-detail.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Digital Products</a> 
-    </div> 
-  </div> 
-</nav>
+  
+  <!-- NAVIGATION (NO BUTTONS HIGHLIGHTED) -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="1-index.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a>
+      <div class="hidden md:flex items-center gap-5 lg:gap-7">
+        <a href="1-index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Home</a>
+        <a href="2-services.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Services</a>
+        <a href="3A-books.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Books</a>
+        <a href="5-about.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">About</a>
+        <a href="6-contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Contact</a>
+        <a href="8-testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Testimonies</a>
+        <a href="7-Donation.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Donation</a>
+        <a href="7-counseling.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Counseling</a>
+        <a href="4-digital-products.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Digital Products</a>
+      </div>
+    </div>
+  </nav>
 
-
-  <!-- FULL-WIDTH BANNER IMAGE (Shrunk in height so it's less zoomed-in, but spans full left-to-right width) -->
+  <!-- FULL-WIDTH BANNER IMAGE (Using your requested Books Storefront banner URL) -->
   <div class="w-full pt-20">
-    <div class="w-full h-[180px] sm:h-[240px] md:h-[300px] overflow-hidden relative border-b border-white/10">
-      <img src="https://github.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/blob/main/images/header-banner.png?raw=true" alt="Living Word By Faith Header Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x400/111/9AFF00?text=Living+Word+By+Faith+Header+Banner'">
-      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative border-b border-white/10">
+      <img src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/Books%20Storefront%20.png" alt="Book Storefront Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Book+Library+Banner'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
     </div>
   </div>
 
-  <!-- HOW WE SERVE / CONSULTATION SECTION -->
-  <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-    <div class="text-center mb-16">
-      <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">How We Serve</span>
-      <h1 class="mt-4 text-4xl md:text-5xl font-semibold tracking-tighter">Areas of Consultation</h1>
-      <p class="mt-4 text-neutral-400 max-w-xl mx-auto">Every session is grounded in Scripture and led by the Holy Spirit.</p>
+  <!-- 12 BOOKS GRID SECTION WITH COMPACT 3x4 SIZING, DROPDOWNS, AND DUAL DONATE BUTTONS -->
+  <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto">
+    
+    <div class="mb-8">
+      <a href="3A-books.html" class="inline-flex items-center gap-2 text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">
+        <span class="iconify text-base" data-icon="mdi:arrow-left"></span> Back to Storefront
+      </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
-        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
-          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:heart-broken-outline"></span>
-        </div>
-        <h3 class="text-xl font-medium mb-3">Marriage & Relationships</h3>
-        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Rebuild trust, restore intimacy, and rediscover God's design for your relationship.</p>
-        <a href="counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="bookLibraryGrid">
+      
+      <!-- JavaScript will dynamically generate all 12 cards with independent dropdowns and dual buttons -->
 
-      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
-        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
-          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:compass-outline"></span>
-        </div>
-        <h3 class="text-xl font-medium mb-3">Purpose & Direction</h3>
-        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Discover your God-given purpose and walk confidently in the calling He has placed on your life.</p>
-        <a href="counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
-      </div>
-
-      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
-        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
-          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:hand-pray"></span>
-        </div>
-        <h3 class="text-xl font-medium mb-3">Spiritual Healing</h3>
-        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Find freedom from strongholds and experience inner healing through targeted prayer and truth.</p>
-        <a href="counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
-      </div>
     </div>
   </section>
 
-  <!-- MINISTRY IMAGE GRID SECTION (9 Placeholder Boxes) -->
-  <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
-    <div class="text-center mb-12">
-      <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">Gallery</span>
-      <h2 class="mt-2 text-3xl font-semibold tracking-tight">Ministry Moments & Photos</h2>
-      <p class="mt-2 text-neutral-400 text-sm">Easily swap out these placeholder source links with your personal ministry pictures later.</p>
-    </div>
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center">
+    <p class="text-xs text-neutral-500 italic mb-2">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+    <p class="text-xs text-neutral-600">© 2026 Living Word By Faith</p>
+  </footer>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <!-- Grid Item 1 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+1" alt="Ministry Moment 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 2 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+2" alt="Ministry Moment 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 3 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+3" alt="Ministry Moment 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 4 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+4" alt="Ministry Moment 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 5 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+5" alt="Ministry Moment 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 6 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+6" alt="Ministry Moment 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 7 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+7" alt="Ministry Moment 7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 8 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+8" alt="Ministry Moment 8" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-      <!-- Grid Item 9 -->
-      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
-        <img src="https://via.placeholder.com/600x450/111/9AFF00?text=Ministry+Photo+9" alt="Ministry Moment 9" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      </div>
-    </div>
-  </section>
+  <!-- SCRIPT TO RENDER 12 COMPACT BOOK CARDS WITH INDEPENDENT DROPDOWNS -->
+  <script>
+    const booksData = [
+      {
+        title: "With the Mouth You Confess with the Heart You Believe",
+        img: "https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/With%20the%20Moat%20you%20confess%20with%20the%20heart%20you%20believe%20.png",
+        desc: "Understanding the spiritual mechanics and power of spoken faith and heart conviction in daily Christian walk."
+      },
+      {
+        title: "Crossing The Same Sex Stronghold",
+        img: "https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/crossing-the-same-sex-stronghold.png",
+        desc: "A foundational, spirit-led guide to freedom, true identity, and walking in biblical truth."
+      },
+      { title: "40 Days in the Wilderness", img: "images/book3.jpg", desc: "A powerful daily devotional designed specifically for seasons of waiting and testing." },
+      { title: "Walking in Purpose", img: "images/book4.jpg", desc: "Unlocking your divine assignment through active faith and holy obedience." },
+      { title: "Healing the Heart", img: "images/book5.jpg", desc: "Overcoming past trauma, rejection, and grief with God’s restoring balm." },
+      { title: "Financial Stewardship", img: "images/book6.jpg", desc: "Biblical principles for managing money and stepping into God's provision." },
+      { title: "Prayers That Prevail", img: "images/book7.jpg", desc: "A 30-day prayer companion for strategic intercession and spiritual warfare." },
+      { title: "Parenting By Faith", img: "images/book8.jpg", desc: "Raising godly children to stand firm in a challenging cultural landscape." },
+      { title: "The Victorious Mind", img: "images/book9.jpg", desc: "Overcoming anxiety, fear, and negative thought patterns with scripture." },
+      { title: "Unshakable Hope", img: "images/book10.jpg", desc: "Finding unshakable stability and joy when the world around you feels uncertain." },
+      { title: "The Power of Gratitude", img: "images/book11.jpg", desc: "Transforming your spiritual perspective through daily thanksgiving and praise." },
+      { title: "Walking in Authority", img: "images/book12.jpg", desc: "Discovering your true spiritual identity and authority in Jesus Christ." }
+    ];
+
+    const grid = document.getElementById('bookLibraryGrid');
+    let html = '';
+
+    booksData.forEach((book, index) => {
+      html += `
+        <div class="bg-neutral-950 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+          
+          <!-- Top section: Compact image (3x4 size) on left, info on right -->
+          <div class="flex gap-4 items-start">
+            <div class="w-[110px] sm:w-[120px] aspect-[3/4] rounded-xl overflow-hidden bg-neutral-900 border border-white/10 flex-shrink-0">
+              <img src="${book.img}" alt="${book.title}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400/111/9AFF00?text=Book+Cover'">
+            </div>
+            
+            <div class="flex-grow">
+              <span class="text-[10px] font-medium text-[#9AFF00] uppercase tracking-wider">Ministry Publication</span>
+              <h3 class="text-sm font-semibold text-white mt-1 leading-snug">${book.title}</h3>
+              
+              <div class="mt-3 space-y-1 text-xs">
+                <div class="text-neutral-300">Paperback: <strong class="text-white">$23.99</strong></div>
+                <div class="text-neutral-300">Digital PDF: <strong class="text-[#9AFF00]">$10.99</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown Box for Description -->
+          <div class="mt-4 border border-white/10 rounded-xl bg-neutral-900/60 overflow-hidden">
+            <button onclick="toggleCardDesc(${index})" class="w-full px-4 py-2.5 flex items-center justify-between text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">
+              <span class="flex items-center gap-1.5"><span class="iconify text-[#9AFF00]" data-icon="mdi:text-box-outline"></span> Read Description</span>
+              <span id="cardIcon-${index}" class="iconify text-sm transition-transform duration-300" data-icon="mdi:chevron-down"></span>
+            </button>
+            <div id="cardDesc-${index}" class="hidden px-4 pb-3 text-xs text-neutral-400 leading-relaxed border-t border-white/5 pt-2">
+              ${book.desc}
+            </div>
+          </div>
+
+          <!-- Donate / Checkout Buttons -->
+          <div class="mt-5 space-y-2 border-t border-white/10 pt-4">
+            <a href="YOUR_PAYPAL_DIGITAL_LINK_HERE" target="_blank" class="w-full bg-[#9AFF00] text-black font-semibold text-xs py-2.5 rounded-xl hover:bg-[#88e000] transition-all text-center flex items-center justify-center gap-1.5 shadow-[0_0_15px_-3px_rgba(154,255,0,0.4)]">
+              <span class="iconify text-sm" data-icon="mdi:download-outline"></span> Donate for Digital PDF ($10.99)
+            </a>
+            <a href="YOUR_PAYPAL_PAPERBACK_LINK_HERE" target="_blank" class="w-full bg-white/10 border border-white/20 text-white font-medium text-xs py-2.5 rounded-xl hover:bg-white/20 transition-all text-center flex items-center justify-center gap-1.5">
+              <span class="iconify text-sm" data-icon="mdi:package-variant-closed"></span> Donate for Paperback ($23.99)
+            </a>
+          </div>
+
+        </div>
+      `;
+    });
+
+    grid.innerHTML = html;
+
+    function toggleCardDesc(index) {
+      const content = document.getElementById(`cardDesc-${index}`);
+      const icon = document.getElementById(`cardIcon-${index}`);
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+  </script>
 
 </body>
 </html>
