@@ -38,28 +38,6 @@
     .dropdown-content a:hover {
       background-color: #222;
     }
-    .cms-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .cms-content {
-      background-color: #111;
-      border: 1px solid #333;
-      border-radius: 0.5rem;
-      padding: 2rem;
-      width: 90%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
   </style>
 </head>
 <body class="bg-black text-white antialiased">
@@ -123,18 +101,6 @@
     </div>
   </nav>
 
-  <!-- CMS Container -->
-  <div id="cms-container" class="cms-container">
-    <div class="cms-content">
-      <h2 id="current-topic" class="text-xl font-bold mb-4 text-[#9AFF00]">Topic</h2>
-      <textarea id="content-editor" rows="10" class="w-full bg-gray-800 text-white p-4 rounded-lg border border-gray-700 mb-4" placeholder="Type your content here..."></textarea>
-      <div class="flex justify-between">
-        <button id="save-content" class="bg-[#9AFF00] text-black px-4 py-2 rounded-lg font-medium hover:bg-[#8ae000] transition-colors">Assign Content to Title</button>
-        <button id="close-cms" class="bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600 transition-colors">Close</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Script to toggle mobile menu -->
   <script>
     const menuBtn = document.getElementById('menu-btn');
@@ -142,44 +108,6 @@
     menuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
       mobileMenu.classList.toggle('flex');
-    });
-
-    // CMS functionality
-    const cmsContainer = document.getElementById('cms-container');
-    const contentEditor = document.getElementById('content-editor');
-    const currentTopic = document.getElementById('current-topic');
-    const saveContent = document.getElementById('save-content');
-    const closeCms = document.getElementById('close-cms');
-    
-    // Handle topic selection
-    document.querySelectorAll('.dropdown-content a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const topic = this.getAttribute('data-topic');
-        currentTopic.textContent = topic;
-        cmsContainer.style.display = 'flex';
-        
-        // Load existing content if available
-        const storedContent = localStorage.getItem(topic);
-        if (storedContent) {
-          contentEditor.value = storedContent;
-        } else {
-          contentEditor.value = '';
-        }
-      });
-    });
-
-    // Save content to local storage
-    saveContent.addEventListener('click', () => {
-      const topic = currentTopic.textContent;
-      const content = contentEditor.value;
-      localStorage.setItem(topic, content);
-      alert(`Content assigned to ${topic} successfully!`);
-    });
-
-    // Close CMS
-    closeCms.addEventListener('click', () => {
-      cmsContainer.style.display = 'none';
     });
   </script>
 
@@ -289,7 +217,7 @@
         <div class="p-5 flex-grow flex flex-col">
           <span class="text-[10px] font-medium text-[#9AFF00] uppercase">Digital eBook</span>
           <h3 class="text-base font-medium text-white mt-1">Healing the Heart</h3>
-          <p class="text-neutral-400 text-xs mt-1 mb-3 flex-grow">Overcoming past trauma and grief with God’s healing balm.</p>
+          <p class="text-neutral-400 text-xs mt-1 mb-3 flex-grow">Overcoming past trauma and grief with God's healing balm.</p>
           <div class="flex items-center gap-2 mb-3 text-xs">
             <span class="bg-white/5 border border-white/10 px-2 py-1 rounded text-neutral-300">Paperback: <strong class="text-white">$16.99</strong></span>
             <span class="bg-white/5 border border-white/10 px-2 py-1 rounded text-neutral-300">Digital PDF: <strong class="text-[#9AFF00]">$10.99</strong></span>
