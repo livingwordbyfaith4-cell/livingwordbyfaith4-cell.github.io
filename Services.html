@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: #000; 
+      color: #fff; 
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #111;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+      z-index: 100;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      color: #ddd;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s;
+    }
+    .dropdown-content a:hover {
+      background-color: #222;
+    }
+    .cms-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .cms-content {
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  
+  <!-- NAVIGATION (EXACT BUTTON ORDER, SERVICES HIGHLIGHTED GREEN) -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-5 lg:gap-7">
+        <a href="index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Home</a>
+        <a href="Services.html" class="text-sm font-medium text-[#9AFF00]">Services</a>
+        <a href="Books.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Books</a>
+        <a href="About.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">About</a>
+        <a href="Contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Contact</a>
+        <a href="Testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Testimonies</a>
+        <a href="Donation.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Donation</a>
+        <a href="Counseling.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Counseling</a>
+        <a href="Digital-Products.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Digital Products</a>
+        
+        <!-- Custom Library Dropdown -->
+        <div class="relative dropdown">
+          <a href="#" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Custom Library</a>
+          <div class="dropdown-content">
+            <a href="#" data-topic="Topic 1">Topic 1</a>
+            <a href="#" data-topic="Topic 2">Topic 2</a>
+            <a href="#" data-topic="Topic 3">Topic 3</a>
+            <a href="#" data-topic="Topic 4">Topic 4</a>
+            <a href="#" data-topic="Topic 5">Topic 5</a>
+            <a href="#" data-topic="Topic 6">Topic 6</a>
+            <a href="#" data-topic="Topic 7">Topic 7</a>
+            <a href="#" data-topic="Topic 8">Topic 8</a>
+            <a href="#" data-topic="Topic 9">Topic 9</a>
+            <a href="#" data-topic="Topic 10">Topic 10</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="menu-btn" class="md:hidden text-[#9AFF00] text-2xl">
+        <span class="iconify" data-icon="mdi:menu"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-black/95 backdrop-blur-xl flex-col gap-4 p-6 border-b border-white/5 md:hidden">
+      <a href="index.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Home</a>
+      <a href="Services.html" class="text-sm font-medium text-[#9AFF00]">Services</a>
+      <a href="Books.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Books</a>
+      <a href="About.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">About</a>
+      <a href="Contact.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Contact</a>
+      <a href="Testimonies.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Testimonies</a>
+      <a href="Donation.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Donation</a>
+      <a href="Counseling.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Counseling</a>
+      <a href="Digital-Products.html" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Digital Products</a>
+      <a href="#" class="text-sm font-medium text-neutral-400 hover:text-[#9AFF00]">Custom Library</a>
+    </div>
+  </nav>
+
+  <!-- CMS Container -->
+  <div id="cms-container" class="cms-container">
+    <div class="cms-content">
+      <h2 id="current-topic" class="text-xl font-bold mb-4 text-[#9AFF00]">Topic</h2>
+      <textarea id="content-editor" rows="10" class="w-full bg-gray-800 text-white p-4 rounded-lg border border-gray-700 mb-4" placeholder="Type your content here..."></textarea>
+      <div class="flex justify-between">
+        <button id="save-content" class="bg-[#9AFF00] text-black px-4 py-2 rounded-lg font-medium hover:bg-[#8ae000] transition-colors">Assign Content to Title</button>
+        <button id="close-cms" class="bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600 transition-colors">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script to toggle mobile menu -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex');
+    });
+
+    // CMS functionality
+    const cmsContainer = document.getElementById('cms-container');
+    const contentEditor = document.getElementById('content-editor');
+    const currentTopic = document.getElementById('current-topic');
+    const saveContent = document.getElementById('save-content');
+    const closeCms = document.getElementById('close-cms');
+    
+    // Handle topic selection
+    document.querySelectorAll('.dropdown-content a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const topic = this.getAttribute('data-topic');
+        currentTopic.textContent = topic;
+        cmsContainer.style.display = 'flex';
+        
+        // Load existing content if available
+        const storedContent = localStorage.getItem(topic);
+        if (storedContent) {
+          contentEditor.value = storedContent;
+        } else {
+          contentEditor.value = '';
+        }
+      });
+    });
+
+    // Save content to local storage
+    saveContent.addEventListener('click', () => {
+      const topic = currentTopic.textContent;
+      const content = contentEditor.value;
+      localStorage.setItem(topic, content);
+      alert(`Content assigned to ${topic} successfully!`);
+    });
+
+    // Close CMS
+    closeCms.addEventListener('click', () => {
+      cmsContainer.style.display = 'none';
+    });
+  </script>
+
+  <!-- FULL-WIDTH HEADER BANNER IMAGE -->
+  <div class="w-full pt-20">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative border-b border-white/10">
+      <img src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/Services.png" alt="Services Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://placehold.co/1600x500/111111/9AFF00?text=Services+Banner'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+    </div>
+  </div>
+
+  <!-- HOW WE SERVE / CONSULTATION SECTION -->
+  <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">How We Serve</span>
+      <h1 class="mt-4 text-4xl md:text-5xl font-semibold tracking-tighter">Areas of Consultation</h1>
+      <p class="mt-4 text-neutral-400 max-w-xl mx-auto">Every session is grounded in Scripture and led by the Holy Spirit.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
+        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
+          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:heart-broken-outline"></span>
+        </div>
+        <h3 class="text-xl font-medium mb-3">Marriage & Relationships</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Rebuild trust, restore intimacy, and rediscover God's design for your relationship.</p>
+        <a href="Counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
+      </div>
+
+      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
+        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
+          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:compass-outline"></span>
+        </div>
+        <h3 class="text-xl font-medium mb-3">Purpose & Direction</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Discover your God-given purpose and walk confidently in the calling He has placed on your life.</p>
+        <a href="Counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
+      </div>
+
+      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8">
+        <div class="w-12 h-12 rounded-xl bg-[#9AFF00]/10 flex items-center justify-center mb-6">
+          <span class="iconify text-[#9AFF00] text-2xl" data-icon="mdi:hand-pray"></span>
+        </div>
+        <h3 class="text-xl font-medium mb-3">Spiritual Healing</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Find freedom from strongholds and experience inner healing through targeted prayer and truth.</p>
+        <a href="Counseling.html" class="text-xs text-[#9AFF00] font-medium flex items-center gap-1 hover:underline">Book Session &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MINISTRY IMAGE GRID SECTION -->
+  <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/5">
+    <div class="text-center mb-12">
+      <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">Gallery</span>
+      <h2 class="mt-2 text-3xl font-semibold tracking-tight">Ministry Moments & Photos</h2>
+      <p class="mt-2 text-neutral-400 text-sm">Easily swap out these placeholder source links with your personal ministry pictures later.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+1" alt="Ministry Moment 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+2" alt="Ministry Moment 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+3" alt="Ministry Moment 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+4" alt="Ministry Moment 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+5" alt="Ministry Moment 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+6" alt="Ministry Moment 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111111/9AFF00?text=Ministry+Photo+7" alt="Ministry Moment 7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111/9AFF00?text=Ministry+Photo+8" alt="Ministry Moment 8" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 group">
+        <img src="https://placehold.co/600x450/111/9AFF00?text=Ministry+Photo+9" alt="Ministry Moment 9" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center">
+    <p class="text-xs text-neutral-500 italic mb-2">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+    <p class="text-xs text-neutral-600">© 2026 Living Word By Faith</p>
+  </footer>
+
+</body>
+</html>
