@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    
+    /* Neon glow for the brand logo */
+    .brand-glow {
+      text-shadow: 0 0 8px rgba(154, 255, 0, 0.8), 0 0 20px rgba(154, 255, 0, 0.3);
+    }
+
+    /* Style for outline indicators when editing */
+    body.editing-active .editable-content:hover {
+      outline: 1px dashed #9AFF00;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  
+  <!-- LOCK/UNLOCK EDIT TOGGLE BUTTON -->
+  <button id="lockToggleBtn" onclick="toggleEditLock()" class="fixed top-16 right-6 z-[9999] px-4 py-2 bg-black/80 backdrop-blur-md border-2 border-[#9AFF00] text-[#9AFF00] hover:bg-[#9AFF00]/15 font-semibold rounded-lg shadow-lg text-sm transition-all duration-300">
+    🔓 Edit Mode: ON
+  </button>
+
+  <!-- NAVIGATION - Shorter height, no border -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-9 md:px-12 bg-black/70 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="01-Index.html" class="text-xs font-bold tracking-wider text-[#9AFF00] brand-glow">LIVING WORD BY FAITH</a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-4 xl:gap-6">
+        <a href="01-Index.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Home</a>
+        <a href="02-Services.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Services</a>
+        <a href="03-Books.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Books</a>
+        <a href="04-About.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">About</a>
+        
+        <!-- Contact tab highlighted in green (no underline) -->
+        <a href="05-Contact.html" class="text-xs font-semibold text-[#9AFF00]">Contact</a>
+
+        <a href="07-Testimonies.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Testimonies</a>
+        <a href="08-Donation.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Donation</a>
+        <a href="09-Counseling.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Counseling</a>
+        <a href="10-Digital-Products.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Digital Products</a>
+        
+        <!-- Dropdown Menu -->
+        <div class="relative group">
+          <button class="text-xs font-medium text-neutral-400 group-hover:text-[#9AFF00] transition-colors flex items-center gap-1 focus:outline-none">
+            Custom Library <span class="iconify text-xs" data-icon="mdi:chevron-down"></span>
+          </button>
+          <div class="absolute right-0 top-full mt-1 w-48 bg-neutral-900 border border-white/10 rounded-xl overflow-hidden shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[200]">
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 1</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 2</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 3</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 4</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 5</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 6</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 7</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 8</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 9</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 10</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="menu-btn" class="lg:hidden text-[#9AFF00] text-2xl">
+        <span class="iconify" data-icon="mdi:menu"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden absolute top-12 left-0 w-full bg-black/95 backdrop-blur-xl flex-col gap-4 p-6 lg:hidden">
+      <a href="01-Index.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Home</a>
+      <a href="02-Services.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Services</a>
+      <a href="03-Books.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Books</a>
+      <a href="04-About.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">About</a>
+      <a href="05-Contact.html" class="text-xs font-medium text-[#9AFF00]">Contact</a>
+      <a href="07-Testimonies.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Testimonies</a>
+      <a href="08-Donation.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Donation</a>
+      <a href="09-Counseling.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Counseling</a>
+      <a href="10-Digital-Products.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Digital Products</a>
+      
+      <!-- Mobile Library Options -->
+      <div class="border-t border-white/10 pt-2 mt-2">
+        <span class="text-xs text-neutral-500 font-semibold uppercase tracking-wider block mb-2">Custom Library</span>
+        <div class="grid grid-cols-2 gap-2 pl-2">
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 1</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 2</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 3</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 4</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 5</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 6</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 7</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 8</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 9</a>
+          <a href="#" class="text-xs text-neutral-400 hover:text-[#9AFF00]">Topic 10</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Logic -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('hidden');
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex');
+    });
+  </script>
+
+  <!-- EDITABLE REGION STARTS HERE -->
+  <div id="editable-zone">
+
+    <!-- FULL-WIDTH BANNER IMAGE - No padding, no border -->
+    <div class="w-full">
+      <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative bg-zinc-950">
+        <img id="bannerImage" src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/Contac.png" alt="Contact Us Banner" class="w-full h-full object-contain object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Contact+Us+Banner'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 pointer-events-none"></div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTACT CONTENT -->
+    <section class="py-32 px-6 md:px-12 max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-medium tracking-widest uppercase text-[#9AFF00]">Living Word By Faith — Contact Us</span>
+        <h1 class="mt-4 text-4xl md:text-5xl font-semibold tracking-tighter">You Don't Have to Carry It Alone</h1>
+        <p class="mt-4 text-neutral-400">Share what's on your heart, and our ministry team will connect with you or lift you up in prayer.</p>
+      </div>
+
+      <div class="bg-neutral-950 border border-white/5 rounded-2xl p-8 md:p-12 shadow-2xl">
+        <form onsubmit="alert('Your message has been received securely by Living Word By Faith. We will be in touch shortly!'); event.preventDefault();" class="space-y-6">
+          
+          <!-- Name & Email -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="text-xs font-medium text-neutral-400 mb-2 block">First Name *</label>
+              <input type="text" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]" placeholder="Your name">
+            </div>
+            <div>
+              <label class="text-xs font-medium text-neutral-400 mb-2 block">Email Address *</label>
+              <input type="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]" placeholder="you@email.com">
+            </div>
+          </div>
+
+          <!-- Phone Number & Optional Address -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="text-xs font-medium text-neutral-400 mb-2 block">Phone Number *</label>
+              <input type="tel" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]" placeholder="(555) 000-0000">
+            </div>
+            <div>
+              <label class="text-xs font-medium text-neutral-400 mb-2 block">Mailing Address <span class="text-neutral-500 font-normal">(Optional)</span></label>
+              <input type="text" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]" placeholder="Street, City, State, Zip">
+            </div>
+          </div>
+
+          <!-- Ministry Focus Dropdown -->
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">What ministry area can we assist you with? *</label>
+            <select required class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00]">
+              <option value="">Select ministry focus...</option>
+              <option value="counseling">Counseling Inquiry</option>
+              <option value="deliverance">Deliverance & Spiritual Warfare</option>
+              <option value="prayer">Prayer & Intercession</option>
+              <option value="marriage">Marriage & Relationships</option>
+              <option value="books">Book & Digital Product Support</option>
+              <option value="donation">Donation & Partnership</option>
+              <option value="general">General Ministry Inquiry</option>
+            </select>
+          </div>
+
+          <!-- Message Box -->
+          <div>
+            <label class="text-xs font-medium text-neutral-400 mb-2 block">Your Message / Prayer Request</label>
+            <textarea rows="5" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#9AFF00] resize-none" placeholder="Share as much or as little as you're comfortable with..."></textarea>
+          </div>
+
+          <!-- SUBMIT BUTTON -->
+          <button type="submit" class="w-full bg-[#9AFF00] text-black font-semibold py-4 rounded-xl hover:bg-[#88e000] transition-all focus:outline-none">Submit Confidentially to Living Word By Faith</button>
+        
+          <!-- EDITABLE CUSTOM CONTENT BOX -->
+          <div class="mt-8 p-6 border border-dashed border-zinc-800 rounded-xl bg-black/40 text-center text-neutral-400 text-sm editable-content" contenteditable="true">
+            <p class="text-[#9AFF00] font-semibold mb-1">Office Hours & Location Details</p>
+            <p>Our administration is active Monday – Friday, 9:00 AM – 5:00 PM EST. Right-click anywhere in this zone to insert custom groupings, prayer checklists, or change this text freely.</p>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center">
+      <p class="text-xs text-neutral-500 italic mb-2">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+      <p class="text-xs text-neutral-600">© 2026 Living Word By Faith</p>
+    </footer>
+
+  </div>
+  <!-- EDITABLE REGION ENDS HERE -->
+
+  <!-- RIGHT-CLICK CUSTOM CONTEXT MENU -->
+  <div id="custom-menu" class="hidden fixed bg-zinc-900 border border-zinc-700 text-white rounded-lg shadow-2xl py-2 w-56 z-[10000] text-sm backdrop-blur">
+    <button id="menu-change-img" class="hidden w-full text-left px-4 py-2.5 hover:bg-[#9AFF00] hover:text-black transition font-medium">️ Swap Selected Image</button>
+    <div id="menu-img-divider" class="hidden border-t border-zinc-700 my-1"></div>
+    <button id="menu-insert-group" class="w-full text-left px-4 py-2.5 hover:bg-[#9AFF00] hover:text-black transition font-medium"> Insert Demon Grouping</button>
+  </div>
+
+  <!-- INLINE IMAGE UPLOADER ELEMENT -->
+  <input type="file" id="editorFileInput" accept="image/*" style="display: none;">
+
+  <!-- CUSTOM EDITOR & CONTROL LOGIC -->
+  <script>
+    let isEditing = true;
+    let activeTargetElement = null;
+
+    const groupingsData = {
+      "1. Bitterness": ["Resentment", "Self Pity", "Loneliness", "Hatred", "Timidity", "Unforgiveness", "Burden", "Disgust", "Shyness"],
+      "13. Depression": ["Despair", "Despondency", "Discouragement", "Defeatism", "Dejection", "Hopelessness", "Suicide", "Death", "Insomnia", "Morbidity"],
+      "15. Worry": ["Anxiety", "Fear", "Dread", "Apprehension"],
+      "44. Addictive/Compulsive": ["Nicotine", "Alcohol", "Drugs", "Medications", "Caffeine", "Gluttony"],
+      "48. Sexual Impurity": ["Lust", "Fantasy lust", "Masturbation", "Homosexuality", "Lesbianism", "Adultery", "Fornication"]
+    };
+
+    // Initialize Edit Mode
+    function initializeEditor() {
+      document.body.classList.add('editing-active');
+      const editableZone = document.getElementById('editable-zone');
+      
+      editableZone.querySelectorAll('h1, h2, h3, p, span, strong, label, button:not([type="submit"])').forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+        el.classList.add('editable-content');
+      });
+    }
+
+    // Toggle Lock / Secure Site Feature
+    function toggleEditLock() {
+      isEditing = false;
+      document.body.classList.remove('editing-active');
+
+      document.querySelectorAll('[contenteditable]').forEach(item => {
+        item.removeAttribute('contenteditable');
+        item.classList.remove('editable-content');
+      });
+
+      const customMenu = document.getElementById('custom-menu');
+      const lockToggleBtn = document.getElementById('lockToggleBtn');
+      const editorFileInput = document.getElementById('editorFileInput');
+
+      if (customMenu) customMenu.remove();
+      if (lockToggleBtn) lockToggleBtn.remove();
+      if (editorFileInput) editorFileInput.remove();
+      
+      const editorScripts = document.querySelectorAll('script');
+      editorScripts.forEach(script => {
+        if (script.textContent.includes('toggleEditLock') || script.textContent.includes('groupingsData')) {
+          script.remove();
+        }
+      });
+
+      const cleanHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([cleanHtml], { type: 'text/html' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = '05-Contact.html';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    // Context Menu Trigger
+    window.addEventListener('contextmenu', (e) => {
+      if (!isEditing) return;
+      if (e.target.closest('nav')) return;
+
+      e.preventDefault();
+      activeTargetElement = e.target;
+
+      const customMenu = document.getElementById('custom-menu');
+      const menuChangeImg = document.getElementById('menu-change-img');
+      const menuImgDivider = document.getElementById('menu-img-divider');
+
+      const isImg = activeTargetElement.closest('img') || activeTargetElement.closest('[style*="background-image"]');
+      if (isImg) {
+        activeTargetElement = isImg;
+        menuChangeImg.classList.remove('hidden');
+        menuImgDivider.classList.remove('hidden');
+      } else {
+        menuChangeImg.classList.add('hidden');
+        menuImgDivider.classList.add('hidden');
+      }
+
+      customMenu.style.top = `${e.clientY}px`;
+      customMenu.style.left = `${e.clientX}px`;
+      customMenu.classList.remove('hidden');
+    });
+
+    window.addEventListener('click', () => {
+      const customMenu = document.getElementById('custom-menu');
+      if (customMenu) customMenu.classList.add('hidden');
+    });
+
+    document.getElementById('menu-change-img').addEventListener('click', () => {
+      if (activeTargetElement) {
+        document.getElementById('editorFileInput').click();
+      }
+    });
+
+    document.getElementById('editorFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && activeTargetElement) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          if (activeTargetElement.tagName === 'IMG') {
+            activeTargetElement.src = event.target.result;
+          } else {
+            activeTargetElement.style.backgroundImage = `url('${event.target.result}')`;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('menu-insert-group').addEventListener('click', () => {
+      const groupKeys = Object.keys(groupingsData);
+      const selection = prompt(`Type a number to insert grouping:\n\n${groupKeys.map((k, i) => `${i + 1}. ${k}`).join('\n')}`);
+      const index = parseInt(selection) - 1;
+      
+      if (index >= 0 && index < groupKeys.length) {
+        const selectedTitle = groupKeys[index];
+        const items = groupingsData[selectedTitle];
+
+        const listHtml = `
+          <div class="my-6 p-6 border border-zinc-800 rounded-2xl bg-black/60 shadow-lg editable-content" contenteditable="true">
+            <strong class="text-[#9AFF00] block text-lg mb-2">${selectedTitle}</strong>
+            <ul class="list-disc pl-5 space-y-1 text-zinc-300 text-sm">
+              ${items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+
+        if (activeTargetElement) {
+          activeTargetElement.insertAdjacentHTML('afterend', listHtml);
+        } else {
+          document.getElementById('editable-zone').insertAdjacentHTML('beforeend', listHtml);
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', initializeEditor);
+  </script>
+
+</body>
+</html>

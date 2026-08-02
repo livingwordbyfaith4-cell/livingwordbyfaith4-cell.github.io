@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Products & GFI Graphics — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    .dropdown:hover .dropdown-menu { display: block; }
+    
+    .lock-button { 
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #9AFF00;
+      color: #9AFF00;
+      backdrop-filter: blur(12px);
+    }
+    .lock-button:hover { 
+      background: #9AFF00;
+      color: #000;
+      transform: scale(1.05); 
+    }
+
+    /* Default View (Lock Mode - Edit Mode Inactive) */
+    .edit-only {
+      display: none !important;
+    }
+    .view-only {
+      display: block;
+    }
+    body.edit-mode-active .edit-only {
+      display: block !important;
+    }
+    body.edit-mode-active .view-only {
+      display: none !important;
+    }
+
+    /* Style the resizable textareas */
+    textarea.field-input {
+      resize: vertical;
+      min-height: 40px;
+    }
+
+    .product-card {
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    body.edit-mode-active .product-card:hover {
+      border-color: rgba(154, 255, 0, 0.4);
+      box-shadow: 0 0 15px rgba(154, 255, 0, 0.1);
+    }
+
+    .product-number { 
+      position: absolute; 
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(154, 255, 0, 0.95); 
+      color: #000; 
+      width: 54px; 
+      height: 54px; 
+      border-radius: 50%; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: 800; 
+      font-size: 20px;
+      z-index: 10;
+      box-shadow: 0 0 15px rgba(154, 255, 0, 0.5);
+      pointer-events: none; /* Let clicks pass directly through to parent container */
+    }
+    body.locked-mode .product-number {
+      display: none !important;
+    }
+
+    .context-menu {
+      position: absolute;
+      background: #111;
+      border: 1px solid #9AFF00;
+      border-radius: 8px;
+      padding: 8px 0;
+      display: none;
+      z-index: 10000;
+      min-width: 190px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .context-menu-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background 0.2s;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .context-menu-item:hover {
+      background: rgba(154, 255, 0, 0.15);
+      color: #9AFF00;
+    }
+
+    .image-container {
+      position: relative;
+    }
+    body.edit-mode-active .image-container:hover::after {
+      content: '📷 Right-click to configure';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.85);
+      color: #9AFF00;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      z-index: 5;
+      pointer-events: none;
+      border: 1px solid rgba(154, 255, 0, 0.3);
+    }
+
+    .save-banner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #9AFF00;
+      color: #000;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: block;
+      z-index: 1000;
+      box-shadow: 0 10px 30px rgba(154, 255, 0, 0.3);
+      animation: slideIn 0.3s ease;
+      cursor: pointer;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased edit-mode-active">
+  
+  <!-- FLOATING LOCK/EDIT BUTTON -->
+  <button id="lockToggle" onclick="toggleLockMode()" class="lock-button fixed top-20 right-6 z-[9999] px-6 py-3 rounded-xl font-semibold shadow-lg shadow-[#9AFF00]/10">
+    🔓 Edit Mode: ON
+  </button>
+
+  <!-- SAVE CHANGES BANNER -->
+  <div id="saveBanner" class="save-banner" onclick="saveChanges()">
+    💾 Save Changes
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div id="contextMenu" class="context-menu">
+    <div class="context-menu-item" onclick="changeImage()">📷 Insert / Change Image</div>
+    <div class="context-menu-item" onclick="editText()">✍️ Insert / Edit Text</div>
+    <div class="context-menu-item" onclick="removeImage()">🗑️ Remove Image</div>
+    <div class="context-menu-item" style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4px; padding-top: 8px; color: #9AFF00;" onclick="triggerSaveFromMenu()">💾 Save Changes</div>
+  </div>
+
+  <!-- HIDDEN FILE INPUT -->
+  <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="02-Services.html" class="text-sm font-semibold tracking-wider text-[#9AFF00]">LIVING WORD BY FAITH</a>
+      <div class="hidden md:flex items-center gap-4 lg:gap-6">
+        <a href="03-Books.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Home</a>
+        <a href="02-Services.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Services</a>
+        <a href="03-Books.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Books</a>
+        <a href="05-About.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">About</a>
+        <a href="06-Contact.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Contact</a>
+        <a href="07-Testimonies.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Testimonies</a>
+        <a href="08-Donation.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Donation</a>
+        <a href="09-counseling.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Counseling</a>
+        <a href="10-Digital-products.html" class="text-xs font-medium text-[#9AFF00]">Digital Products</a>
+        <div class="relative dropdown">
+          <button class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors flex items-center gap-1">
+            Custom Library
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+          <div class="dropdown-menu hidden absolute top-full right-0 mt-1 w-56 bg-neutral-900 border border-white/10 rounded-lg shadow-xl py-2">
+            <a href="custom-library-1.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Bible Study Guides</a>
+            <a href="custom-library-2.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Prayer Resources</a>
+            <a href="custom-library-3.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Worship Materials</a>
+            <a href="custom-library-4.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Teaching Series</a>
+            <a href="custom-library-5.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Devotionals</a>
+            <a href="custom-library-6.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Youth Resources</a>
+            <a href="custom-library-7.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Small Group Studies</a>
+            <a href="custom-library-8.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Ministry Tools</a>
+            <a href="custom-library-9.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Audio Teachings</a>
+            <a href="custom-library-10.html" class="block px-4 py-2 text-xs text-neutral-300 hover:bg-white/5 hover:text-[#9AFF00] transition-colors">Video Library</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FULL-WIDTH BANNER IMAGE WITH RIGHT-CLICK -->
+  <div class="w-full pt-16">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative border-b border-white/10 image-container" oncontextmenu="handleBannerRightClick(event)">
+      <img id="bannerImage" src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/Books%20Storefront%20.png" alt="Digital Products Storefront Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Digital+Products+Storefront'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+    </div>
+  </div>
+
+  <!-- DIGITAL PRODUCTS STOREFRONT SECTION -->
+  <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="edit-only max-w-md mx-auto mb-2">
+        <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-center text-xs font-medium tracking-widest uppercase text-[#9AFF00] rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="category" value="Instant Electronic Downloads">
+      </div>
+      <span class="view-only text-xs font-medium tracking-widest uppercase text-[#9AFF00]" id="view_category">Instant Electronic Downloads</span>
+
+      <div class="edit-only max-w-2xl mx-auto mb-2">
+        <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-center text-3xl md:text-5xl font-semibold tracking-tighter text-white rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="title">GFI Animations, Graphics & Teachings</textarea>
+      </div>
+      <h1 class="view-only mt-4 text-4xl md:text-5xl font-semibold tracking-tighter" id="view_title">GFI Animations, Graphics & Teachings</h1>
+
+      <div class="edit-only max-w-2xl mx-auto mb-2">
+        <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-center text-neutral-400 text-sm rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="description">Transparent background animations, digital graphic assets, and teachings of Jesus.</textarea>
+      </div>
+      <p class="view-only mt-4 text-neutral-400" id="view_description">Transparent background animations, digital graphic assets, and teachings of Jesus.</p>
+    </div>
+
+    <!-- 12 DIGITAL PRODUCT BOX GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      
+      <!-- Product A1 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A1')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A1</div>
+          <img id="productImageA1" src="https://via.placeholder.com/600x800/111/9AFF00?text=GFI+Transparent+Cross" alt="GFI Transparent Cross" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA1" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA1">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA1">Glowing Cross Animation (Alpha)</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA1">Glowing Cross Animation (Alpha)</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA1">High-definition animated cross with transparent background for video edits.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA1">High-definition animated cross with transparent background for video edits.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA1" value="$5.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA1">$5.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A1" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A2 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A2')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A2</div>
+          <img id="productImageA2" src="https://via.placeholder.com/600x800/111/9AFF00?text=Teachings+of+Jesus+Audio" alt="Teachings of Jesus Audio" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA2" value="Audio Teaching">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA2">Audio Teaching</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA2">The Sermon on the Mount Deep Dive</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA2">The Sermon on the Mount Deep Dive</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA2">An in-depth digital audio series breaking down the vital teachings of Jesus.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA2">An in-depth digital audio series breaking down the vital teachings of Jesus.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA2" value="$12.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA2">$12.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A2" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A3 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A3')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A3</div>
+          <img id="productImageA3" src="https://via.placeholder.com/600x800/111/9AFF00?text=Transparent+Dove+GIF" alt="Transparent Dove GIF" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA3" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA3">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA3">Holy Spirit Descending Dove</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA3">Holy Spirit Descending Dove</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA3">Seamless looping transparent background animation representing the Holy Spirit.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA3">Seamless looping transparent background animation representing the Holy Spirit.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA3" value="$6.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA3">$6.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A3" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A4 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A4')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A4</div>
+          <img id="productImageA4" src="https://via.placeholder.com/600x800/111/9AFF00?text=Scripture+Wallpaper+Pack" alt="Scripture Wallpaper Pack" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA4" value="Digital Graphics">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA4">Digital Graphics</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA4">Mobile & Desktop Scripture Wallpapers</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA4">Mobile & Desktop Scripture Wallpapers</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA4">A curated bundle of 20 high-res aesthetic Christian faith wallpapers.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA4">A curated bundle of 20 high-res aesthetic Christian faith wallpapers.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA4" value="$8.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA4">$8.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A4" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A5 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A5')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A5</div>
+          <img id="productImageA5" src="https://via.placeholder.com/600x800/111/9AFF00?text=Transparent+Fire+GFI" alt="Transparent Fire GFI" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA5" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA5">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA5">Holy Fire Revival Animation</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA5">Holy Fire Revival Animation</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA5">Alpha channel transparent flame loops symbolizing spiritual awakening.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA5">Alpha channel transparent flame loops symbolizing spiritual awakening.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA5" value="$7.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA5">$7.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A5" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A6 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A6')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A6</div>
+          <img id="productImageA6" src="https://via.placeholder.com/600x800/111/9AFF00?text=Parables+Study+Guide" alt="Parables Study Guide" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA6" value="PDF Study Guide">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA6">PDF Study Guide</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA6">Unlocking the Parables of Jesus</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA6">Unlocking the Parables of Jesus</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA6">A printable digital workbook exploring the hidden kingdoms found in Christ's parables.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA6">A printable digital workbook exploring the hidden kingdoms found in Christ's parables.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA6" value="$9.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA6">$9.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A6" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A7 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A7')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A7</div>
+          <img id="productImageA7" src="https://via.placeholder.com/600x800/111/9AFF00?text=Transparent+Bible+GFI" alt="Transparent Bible GFI" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA7" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA7">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA7">Glowing Open Bible Animation</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA7">Glowing Open Bible Animation</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA7">Animated open Holy Bible with glowing light beams on transparent background.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA7">Animated open Holy Bible with glowing light beams on transparent background.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA7" value="$6.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA7">$6.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A7" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A8 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A8')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A8</div>
+          <img id="productImageA8" src="https://via.placeholder.com/600x800/111/9AFF00?text=Prayer+Journal+Template" alt="Prayer Journal Template" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA8" value="Printable PDF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA8">Printable PDF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA8">Strategic War Room Prayer Journal</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA8">Strategic War Room Prayer Journal</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA8">Digital layout templates for tracking prayers, scriptures, and breakthroughs.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA8">Digital layout templates for tracking prayers, scriptures, and breakthroughs.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA8" value="$11.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA8">$11.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A8" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A9 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A9')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A9</div>
+          <img id="productImageA9" src="https://via.placeholder.com/600x800/111/9AFF00?text=Transparent+Crown+GFI" alt="Transparent Crown GFI" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA9" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA9">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA9">Crown of Glory Animation</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA9">Crown of Glory Animation</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA9">Golden crown graphic loop with transparent background for media projects.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA9">Golden crown graphic loop with transparent background for media projects.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA9" value="$5.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA9">$5.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A9" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A10 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A10')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A10</div>
+          <img id="productImageA10" src="https://via.placeholder.com/600x800/111/9AFF00?text=Names+of+God+Cards" alt="Names of God Cards" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA10" value="Printable Flashcards">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA10">Printable Flashcards</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA10">The Names of God Digital Flashcards</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA10">The Names of God Digital Flashcards</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA10">Printable cards detailing Hebrew names of God and their biblical meanings.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA10">Printable cards detailing Hebrew names of God and their biblical meanings.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA10" value="$8.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA10">$8.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A10" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A11 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A11')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A11</div>
+          <img id="productImageA11" src="https://via.placeholder.com/600x800/111/9AFF00?text=Transparent+Light+GFI" alt="Transparent Light GFI" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA11" value="Transparent GFI / GIF">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA11">Transparent GFI / GIF</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA11">Divine Light Rays Animation</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA11">Divine Light Rays Animation</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA11">Subtle volumetric light rays shifting on a transparent background layer.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA11">Subtle volumetric light rays shifting on a transparent background layer.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA11" value="$7.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA11">$7.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A11" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product A12 -->
+      <div class="product-card bg-neutral-950 border border-white/5 rounded-2xl overflow-hidden group cursor-pointer" oncontextmenu="handleProductRightClick(event, 'A12')">
+        <div class="aspect-[3/4] relative overflow-hidden bg-neutral-900 image-container">
+          <div class="product-number">A12</div>
+          <img id="productImageA12" src="https://via.placeholder.com/600x800/111/9AFF00?text=Kingdom+Audio+Bundle" alt="Kingdom Audio Bundle" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
+        </div>
+        <div class="p-5">
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-[#9AFF00] uppercase font-bold tracking-wider block mb-1">Category</label>
+            <input type="text" class="w-full bg-neutral-900 border border-neutral-800 text-[#9AFF00] text-[10px] uppercase font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="categoryA12" value="Audio Bundle">
+          </div>
+          <span class="view-only text-[10px] font-medium text-[#9AFF00] uppercase" id="view_categoryA12">Audio Bundle</span>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Product Title</label>
+            <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-white text-sm font-medium rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="nameA12">Kingdom Authority Audio Collection</textarea>
+          </div>
+          <h3 class="view-only text-base font-medium text-white mt-1" id="view_nameA12">Kingdom Authority Audio Collection</h3>
+
+          <div class="edit-only mb-2">
+            <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Description (Stetchable)</label>
+            <textarea rows="2" class="w-full bg-neutral-900 border border-neutral-800 text-neutral-400 text-xs rounded p-2 focus:border-[#9AFF00] outline-none field-input" data-field="descA12">Complete mp3 teaching bundle focused on operating in spiritual authority.</textarea>
+          </div>
+          <p class="view-only text-neutral-400 text-xs mt-1 mb-3 line-clamp-2" id="view_descA12">Complete mp3 teaching bundle focused on operating in spiritual authority.</p>
+
+          <div class="flex items-center justify-between mt-2">
+            <div>
+              <div class="edit-only">
+                <label class="text-[9px] text-neutral-400 font-bold tracking-wider block mb-1">Price</label>
+                <input type="text" class="w-20 bg-neutral-900 border border-neutral-800 text-white text-sm font-semibold rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="priceA12" value="$14.99">
+              </div>
+              <span class="view-only text-base font-semibold text-white" id="view_priceA12">$14.99</span>
+            </div>
+            <a href="04-Book-Detail.html?id=A12" class="bg-[#9AFF00] text-black text-xs px-4 py-2 rounded-full font-medium hover:bg-[#88e000] transition-colors self-end">View Details</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="mainFooter" class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center cursor-pointer">
+    <div class="edit-only max-w-xl mx-auto mb-2">
+      <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-center text-xs text-neutral-400 rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="footer1">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</textarea>
+    </div>
+    <p class="view-only text-xs text-neutral-500 italic mb-2" id="view_footer1">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+
+    <div class="edit-only max-w-xl mx-auto mb-2">
+      <textarea rows="1" class="w-full bg-neutral-900 border border-neutral-800 text-center text-xs text-neutral-500 rounded p-1.5 focus:border-[#9AFF00] outline-none field-input" data-field="footer2">© 2026 Living Word By Faith • Automated Email Delivery Powered by Living Word By Faith</textarea>
+    </div>
+    <p class="view-only text-xs text-neutral-600" id="view_footer2">© 2026 Living Word By Faith • Automated Email Delivery Powered by Living Word By Faith</p>
+    
+    <p class="text-[10px] text-neutral-800 mt-2 select-none">💡 (Double-click footer to toggle/show Edit Mode if locked)</p>
+  </footer>
+
+  <script>
+    let isLocked = false;
+    let currentImageId = null;
+    let currentElementType = null;
+
+    // Toggle Lock Mode (Hides lock button and edit wrappers when locking)
+    function toggleLockMode() {
+      saveChanges(); // Auto-save all fields
+      setEditMode(isLocked); // Toggles state based on previous locked value
+    }
+
+    // Set interactive edit mode layout
+    function setEditMode(enabled) {
+      isLocked = !enabled;
+      const btn = document.getElementById('lockToggle');
+      const saveBanner = document.getElementById('saveBanner');
+      
+      if (enabled) {
+        document.body.classList.add('edit-mode-active');
+        document.body.classList.remove('locked-mode');
+        if (btn) {
+          btn.innerHTML = '🔓 Edit Mode: ON';
+          btn.style.display = 'block';
+        }
+        if (saveBanner) {
+          saveBanner.style.display = 'block';
+        }
+      } else {
+        document.body.classList.remove('edit-mode-active');
+        document.body.classList.add('locked-mode');
+        if (btn) {
+          btn.style.display = 'none'; // Lock button completely disappears when locked
+        }
+        if (saveBanner) {
+          saveBanner.style.display = 'none'; // Save banner disappears
+        }
+      }
+      
+      // Update badge visibility instantly on state toggles
+      updateAllNumberBadges();
+    }
+
+    // Evaluates number badge visibility based on edit-state and empty placeholder state
+    function updateNumberBadgeVisibility(id) {
+      const imgEl = document.getElementById(`productImage${id}`);
+      if (imgEl) {
+        const card = imgEl.closest('.product-card');
+        if (card) {
+          const badge = card.querySelector('.product-number');
+          if (badge) {
+            const src = imgEl.src;
+            // Check if current source is a placeholder fallback
+            const isPlaceholder = src.includes('placeholder.com') || src.includes('via.placeholder') || src === '';
+            
+            if (isLocked) {
+              badge.style.setProperty('display', 'none', 'important');
+            } else {
+              // Only display the badge if there is no customized/uploaded image loaded
+              if (isPlaceholder) {
+                badge.style.setProperty('display', 'flex', 'important');
+              } else {
+                badge.style.setProperty('display', 'none', 'important');
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function updateAllNumberBadges() {
+      const productIds = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12'];
+      productIds.forEach(id => {
+        updateNumberBadgeVisibility(id);
+      });
+    }
+
+    // Double click the footer to toggle edit mode back on if locked
+    document.getElementById('mainFooter').addEventListener('dblclick', () => {
+      setEditMode(isLocked); // Set to opposite of locked
+    });
+
+    // Keyboard shortcut to force unlock: Ctrl+Shift+E
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'e') {
+        setEditMode(isLocked);
+      }
+    });
+
+    // Context Menu Trigger Handlers
+    function handleBannerRightClick(e) {
+      if (isLocked) return;
+      e.preventDefault();
+      currentElementType = 'banner';
+      currentImageId = null;
+      showContextMenu(e.clientX, e.clientY);
+    }
+
+    function handleProductRightClick(e, productId) {
+      if (isLocked) return;
+      e.preventDefault();
+      currentElementType = 'product';
+      currentImageId = productId;
+      showContextMenu(e.clientX, e.clientY);
+    }
+
+    function showContextMenu(x, y) {
+      const menu = document.getElementById('contextMenu');
+      menu.style.display = 'block';
+      menu.style.left = (x + window.scrollX) + 'px';
+      menu.style.top = (y + window.scrollY) + 'px';
+    }
+
+    // Hide context menu on normal left clicks
+    document.addEventListener('click', () => {
+      document.getElementById('contextMenu').style.display = 'none';
+    });
+
+    // Context Menu Action: Insert / Change Image
+    function changeImage() {
+      document.getElementById('imageInput').click();
+    }
+
+    // Context Menu Action: Insert / Edit Text (Focus and select the input/textarea box)
+    function editText() {
+      if (isLocked) return;
+      let targetEl = null;
+      if (currentElementType === 'product' && currentImageId) {
+        targetEl = document.querySelector(`.field-input[data-field="name${currentImageId}"]`);
+      } else if (currentElementType === 'banner') {
+        targetEl = document.querySelector(`.field-input[data-field="title"]`);
+      }
+      
+      if (targetEl) {
+        targetEl.focus();
+        targetEl.select();
+      }
+    }
+
+    // Context Menu Action: Remove Image
+    function removeImage() {
+      if (currentElementType === 'banner') {
+        document.getElementById('bannerImage').src = 'https://via.placeholder.com/1600x500/111/9AFF00?text=Digital+Products+Storefront';
+      } else if (currentElementType === 'product' && currentImageId) {
+        document.getElementById(`productImage${currentImageId}`).src = `https://via.placeholder.com/600x800/111/9AFF00?text=Product+${currentImageId}`;
+        updateNumberBadgeVisibility(currentImageId); // Re-show number badge if reverted to placeholder
+        syncImageToDetailPage(currentImageId, `https://via.placeholder.com/600x800/111/9AFF00?text=Product+${currentImageId}`);
+      }
+      document.getElementById('contextMenu').style.display = 'none';
+      if (isEditMode) {
+        document.getElementById('saveBanner').style.display = 'block';
+      }
+    }
+
+    // File selection handler
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          if (currentElementType === 'banner') {
+            document.getElementById('bannerImage').src = e.target.result;
+          } else if (currentElementType === 'product' && currentImageId) {
+            document.getElementById(`productImage${currentImageId}`).src = e.target.result;
+            updateNumberBadgeVisibility(currentImageId); // Hide badge immediately
+            syncImageToDetailPage(currentImageId, e.target.result);
+          }
+          document.getElementById('saveBanner').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Context Menu Action: Save Changes Instantly
+    function triggerSaveFromMenu() {
+      saveChanges();
+    }
+
+    // Sync input values to view elements and store inside LocalStorage
+    function updateViewsAndSave() {
+      const inputs = document.querySelectorAll('.field-input');
+      inputs.forEach(input => {
+        const field = input.getAttribute('data-field');
+        if (field) {
+          const val = input.value.trim();
+          const viewEl = document.getElementById(`view_${field}`);
+          if (viewEl) {
+            viewEl.innerText = val; // Mirror inputs to public standard typography
+          }
+          localStorage.setItem(`field_${field}`, val);
+        }
+      });
+    }
+
+    // Sync elements inside dynamic detail page package
+    function syncImageToDetailPage(productId, imageUrl) {
+      const categoryInput = document.querySelector(`.field-input[data-field="category${productId}"]`);
+      const nameInput = document.querySelector(`.field-input[data-field="name${productId}"]`);
+      const descInput = document.querySelector(`.field-input[data-field="desc${productId}"]`);
+      const priceInput = document.querySelector(`.field-input[data-field="price${productId}"]`);
+
+      const detailData = {
+        id: productId,
+        image: imageUrl,
+        name: nameInput ? nameInput.value.trim() : '',
+        category: categoryInput ? categoryInput.value.trim() : '',
+        description: descInput ? descInput.value.trim() : '',
+        price: priceInput ? priceInput.value.trim() : ''
+      };
+      localStorage.setItem(`product_${productId}`, JSON.stringify(detailData));
+    }
+
+    // Save operation
+    function saveChanges() {
+      // 1. Mirror inputs to view elements and save to localStorage
+      updateViewsAndSave();
+
+      // 2. Save top banner image
+      const bannerImg = document.getElementById('bannerImage').src;
+      localStorage.setItem('bannerImage', bannerImg);
+      
+      // 3. Save product images and write sync data package
+      const productIds = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12'];
+      productIds.forEach(id => {
+        const imgEl = document.getElementById(`productImage${id}`);
+        if (imgEl) {
+          const imgUrl = imgEl.src;
+          localStorage.setItem(`productImage${id}`, imgUrl);
+          syncImageToDetailPage(id, imgUrl);
+        }
+      });
+      
+      // Visual Feedback Banner
+      const banner = document.getElementById('saveBanner');
+      if (banner) {
+        banner.innerHTML = '✅ Changes Saved!';
+        setTimeout(() => {
+          banner.innerHTML = '💾 Save Changes';
+        }, 2000);
+      }
+    }
+
+    // Init page and retrieve persistent changes
+    window.onload = function() {
+      // Load banner
+      const savedBanner = localStorage.getItem('bannerImage');
+      if (savedBanner) {
+        document.getElementById('bannerImage').src = savedBanner;
+      }
+      
+      // Load input fields and update view fields
+      const inputs = document.querySelectorAll('.field-input');
+      inputs.forEach(input => {
+        const field = input.getAttribute('data-field');
+        if (field) {
+          const savedText = localStorage.getItem(`field_${field}`);
+          if (savedText !== null) {
+            input.value = savedText; // Update dynamic textarea/input value
+            const viewEl = document.getElementById(`view_${field}`);
+            if (viewEl) {
+              viewEl.innerText = savedText; // Update plain typography container
+            }
+          }
+        }
+      });
+      
+      // Load product images
+      const productIds = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12'];
+      productIds.forEach(id => {
+        const savedImg = localStorage.getItem(`productImage${id}`);
+        if (savedImg) {
+          const imgEl = document.getElementById(`productImage${id}`);
+          if (imgEl) imgEl.src = savedImg;
+        }
+        // Force calculation of badge visibility
+        updateNumberBadgeVisibility(id);
+      });
+
+      // Always reset to Edit Mode ON on load so editing is immediately active
+      setEditMode(true);
+    };
+  </script>
+</body>
+</html>
