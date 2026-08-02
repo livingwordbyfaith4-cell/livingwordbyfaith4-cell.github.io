@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Library & Details — Living Word By Faith</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+    
+    /* Lock indicator base styling */
+    .lock-indicator { 
+        position: fixed; top: 100px; right: 20px; 
+        background: #222; border: 1px solid #9AFF00; 
+        padding: 8px 16px; border-radius: 6px; 
+        font-size: 0.85rem; cursor: pointer; 
+        display: flex; align-items: center; gap: 6px;
+        z-index: 1000;
+        color: #fff;
+    }
+    .lock-indicator.locked { background: #9AFF00; color: #000; }
+    .lock-indicator:hover { opacity: 0.9; }
+
+    /* === CRITICAL: HIDE ALL EDITING UI WHEN LOCKED === */
+    body.locked-mode .edit-btn,
+    body.locked-mode .lock-indicator {
+        display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased">
+  
+  <!-- LOCK TOGGLE -->
+  <div class="lock-indicator" id="lockToggle" onclick="toggleLockMode()"> Edit Mode: ON</div>
+
+  <!-- NAVIGATION - Shorter height, no border, all tabs neutral -->
+  <nav class="fixed top-0 left-0 right-0 z-[100] h-12 flex items-center px-6 md:px-12 bg-black/70 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <a href="01-Index.html" class="text-xs font-semibold tracking-wider text-[#9AFF00] drop-shadow-[0_0_6px_rgba(154,255,0,0.4)]">LIVING WORD BY FAITH</a>
+      <div class="hidden xl:flex items-center gap-4 xl:gap-5 h-full">
+        <a href="01-Index.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Home</a>
+        <a href="02-Services.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Services</a>
+        <a href="03-Books.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Books</a>
+        <a href="05-About.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">About</a>
+        <a href="06-Contact.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Contact</a>
+        <a href="07-Testimonies.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Testimonies</a>
+        <a href="08-Donation.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Donation</a>
+        <a href="09-Counseling.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Counseling</a>
+        <a href="10-Digital-products.html" class="text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">Digital Products</a>
+        
+        <!-- CUSTOM LIBRARY DROPDOWN -->
+        <div class="relative group">
+          <button class="text-xs font-medium text-neutral-400 group-hover:text-[#9AFF00] flex items-center gap-1 transition-colors focus:outline-none">
+            Custom Library <span class="iconify text-xs" data-icon="mdi:chevron-down"></span>
+          </button>
+          <div class="absolute right-0 top-full mt-1 w-48 bg-neutral-900 border border-white/10 rounded-xl overflow-hidden shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[200]">
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 1</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 2</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 3</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 4</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 5</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 6</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 7</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 8</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 9</a>
+            <a href="#" class="block px-4 py-2.5 text-xs text-neutral-300 hover:text-[#9AFF00] hover:bg-white/5 transition-colors">Topic 10</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- FULL-WIDTH BANNER IMAGE -->
+  <div class="w-full">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[350px] overflow-hidden relative">
+      <img src="https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/Books%20Storefront%20.png" alt="Book Storefront Banner" class="w-full h-full object-cover object-center" onerror="this.src='https://via.placeholder.com/1600x500/111/9AFF00?text=Book+Library+Banner'">
+      <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+    </div>
+  </div>
+
+  <!-- DETAILS GRID SECTION -->
+  <section class="py-16 px-6 md:px-12 max-w-7xl mx-auto">
+    
+    <div class="mb-8 flex items-center justify-between">
+      <a href="4-digital-products.html" class="inline-flex items-center gap-2 text-xs font-medium text-neutral-400 hover:text-[#9AFF00] transition-colors">
+        <span class="iconify text-base" data-icon="mdi:arrow-left"></span> Back to Storefront
+      </a>
+      <div id="viewAllControl" class="hidden">
+        <a href="04-Book-Detail.html" class="text-xs font-semibold text-[#9AFF00] hover:underline transition-all">
+          View All Products
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="bookLibraryGrid">
+      
+      <!-- Generated books and synced digital products go here -->
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 md:px-12 border-t border-white/5 bg-neutral-950 text-center">
+    <p class="text-xs text-neutral-500 italic mb-2">"For I know the plans I have for you," declares the Lord. — Jeremiah 29:11</p>
+    <p class="text-xs text-neutral-600">© 2026 Living Word By Faith</p>
+  </footer>
+
+  <!-- EDIT MODAL -->
+  <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4" id="editModal">
+    <div class="bg-neutral-900 border border-[#9AFF00]/30 p-6 md:p-8 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl text-white">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+        <h3 class="text-lg font-bold text-[#9AFF00]">Edit Details</h3>
+        <button onclick="closeModal()" class="text-neutral-400 hover:text-white transition-colors">
+          <span class="iconify text-xl" data-icon="mdi:close"></span>
+        </button>
+      </div>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-neutral-400 mb-1">Title</label>
+          <input type="text" id="editBookTitle" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+        </div>
+        
+        <div>
+          <label class="block text-xs font-semibold text-neutral-400 mb-1">Description</label>
+          <textarea id="editBookDesc" rows="4" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors resize-none"></textarea>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-neutral-400 mb-1">Paperback Price</label>
+            <input type="text" id="editBookPaperbackPrice" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-neutral-400 mb-1">Digital Price</label>
+            <input type="text" id="editBookDigitalPrice" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-neutral-400 mb-1">Paperback Link (e.g., PayPal Link)</label>
+          <input type="text" id="editBookPaperbackLink" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-neutral-400 mb-1">Digital PDF Link (e.g., PayPal Link)</label>
+          <input type="text" id="editBookDigitalLink" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-neutral-400 mb-1">Upload Cover Image</label>
+          <input type="file" id="editBookImage" accept="image/*" class="w-full bg-black border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-[#9AFF00] transition-colors">
+        </div>
+      </div>
+      
+      <div class="flex items-center justify-between border-t border-white/10 pt-6 mt-6">
+        <button onclick="deleteBook()" class="bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 text-red-400 text-xs px-4 py-2.5 rounded-xl font-medium transition-colors">
+          Delete Item
+        </button>
+        <div class="flex gap-2">
+          <button onclick="closeModal()" class="bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xs px-4 py-2.5 rounded-xl font-medium transition-colors">
+            Cancel
+          </button>
+          <button onclick="saveBookChanges()" class="bg-[#9AFF00] text-black text-xs px-5 py-2.5 rounded-xl font-bold hover:bg-[#88e000] transition-colors">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETAILS ENGINE -->
+  <script>
+    const DB_NAME = 'LWBF_EditorDB_v1';
+    const DB_VERSION = 1;
+    let idb = null;
+    let books = [];
+    let isLocked = false;
+    let currentEditingId = null;
+
+    const defaultBooks = [
+      {
+        id: "book-1",
+        title: "Crossing The Same Sex Stronghold",
+        img: "https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/crossing-the-same-sex-stronghold.png",
+        desc: "A foundational, spirit-led guide to freedom, identity, and walking in truth.",
+        paperbackPrice: "$23.99",
+        digitalPrice: "$10.99",
+        paperbackLink: "#",
+        digitalLink: "#"
+      },
+      {
+        id: "book-2",
+        title: "With the Mouth You Confess with the Heart You Believe",
+        img: "https://raw.githubusercontent.com/livingwordbyfaith4-cell/livingwordbyfaith4-cell.github.io/main/images/With%20the%20Moat%20you%20confess%20with%20the%20heart%20you%20believe%20.png",
+        desc: "Understanding the spiritual mechanics and power of spoken faith and heart conviction in daily Christian walk.",
+        paperbackPrice: "$14.99",
+        digitalPrice: "$10.99",
+        paperbackLink: "#",
+        digitalLink: "#"
+      },
+      { id: "book-3", title: "40 Days in the Wilderness", img: "images/book3.jpg", desc: "A powerful daily devotional designed specifically for seasons of waiting and testing.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-4", title: "Walking in Purpose", img: "images/book4.jpg", desc: "Unlocking your divine assignment through active faith and holy obedience.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-5", title: "Healing the Heart", img: "images/book5.jpg", desc: "Overcoming past trauma, rejection, and grief with God's restoring balm.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-6", title: "Financial Stewardship", img: "images/book6.jpg", desc: "Biblical principles for managing money and stepping into God's provision.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-7", title: "Prayers That Prevail", img: "images/book7.jpg", desc: "A 30-day prayer companion for strategic intercession and spiritual warfare.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-8", title: "Parenting By Faith", img: "images/book8.jpg", desc: "Raising godly children to stand firm in a challenging cultural landscape.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-9", title: "The Victorious Mind", img: "images/book9.jpg", desc: "Overcoming anxiety, fear, and negative thought patterns with scripture.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-10", title: "Unshakable Hope", img: "images/book10.jpg", desc: "Finding unshakable stability and joy when the world around you feels uncertain.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-11", title: "The Power of Gratitude", img: "images/book11.jpg", desc: "Transforming your spiritual perspective through daily thanksgiving and praise.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" },
+      { id: "book-12", title: "Walking in Authority", img: "images/book12.jpg", desc: "Discovering your true spiritual identity and authority in Jesus Christ.", paperbackPrice: "$23.99", digitalPrice: "$10.99", paperbackLink: "#", digitalLink: "#" }
+    ];
+
+    function initDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('content')) {
+            db.createObjectStore('content', { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = (e) => { idb = e.target.result; resolve(); };
+        request.onerror = (e) => reject(e);
+      });
+    }
+
+    function dbGetBooks() {
+      return new Promise((resolve) => {
+        const tx = idb.transaction('content', 'readonly');
+        const req = tx.objectStore('content').get('books-list');
+        req.onsuccess = () => resolve(req.result ? req.result.books : null);
+        req.onerror = () => resolve(null);
+      });
+    }
+
+    function dbPutBooks(data) {
+      return new Promise((resolve, reject) => {
+        const tx = idb.transaction('content', 'readwrite');
+        const store = tx.objectStore('content');
+        const req = store.put({ id: 'books-list', books: data });
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e);
+      });
+    }
+
+    // Merges standard physical books (from IndexedDB) with configured digital storefront items (from LocalStorage)
+    function getMergedBooks() {
+      const merged = [...books];
+      const productIds = ['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12'];
+      
+      productIds.forEach(id => {
+        const img = localStorage.getItem(`productImage${id}`);
+        // If the item has a custom-uploaded image (not a fallback placeholder), compile it automatically!
+        if (img && !img.includes('placeholder.com') && !img.includes('via.placeholder')) {
+          const title = localStorage.getItem(`field_name${id}`) || `Product ${id}`;
+          const desc = localStorage.getItem(`field_desc${id}`) || "Custom Digital Product Details";
+          const price = localStorage.getItem(`field_price${id}`) || "$0.00";
+          const category = localStorage.getItem(`field_category${id}`) || "Digital Resource";
+
+          const bookObj = {
+            id: id,
+            title: title,
+            img: img,
+            desc: desc,
+            paperbackPrice: price,
+            digitalPrice: price,
+            paperbackLink: localStorage.getItem(`field_paperbackLink_${id}`) || "#",
+            digitalLink: localStorage.getItem(`field_digitalLink_${id}`) || "#",
+            category: category,
+            isDigital: true
+          };
+
+          const existsIndex = merged.findIndex(b => b.id === id);
+          if (existsIndex > -1) {
+            merged[existsIndex] = bookObj;
+          } else {
+            merged.push(bookObj);
+          }
+        }
+      });
+      return merged;
+    }
+
+    function renderLibrary() {
+      const grid = document.getElementById('bookLibraryGrid');
+      const viewAllControl = document.getElementById('viewAllControl');
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedId = urlParams.get('id');
+
+      const allBooks = getMergedBooks();
+      let displayBooks = allBooks;
+      let isSingleView = false;
+
+      if (selectedId) {
+        const found = allBooks.find(b => b.id === selectedId);
+        if (found) {
+          displayBooks = [found];
+          isSingleView = true;
+          viewAllControl.classList.remove('hidden');
+        }
+      } else {
+        viewAllControl.classList.add('hidden');
+      }
+
+      if (isSingleView) {
+        grid.className = "grid grid-cols-1 max-w-lg mx-auto gap-8 justify-center";
+      } else {
+        grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8";
+      }
+
+      let html = '';
+      displayBooks.forEach((book, index) => {
+        const categoryLabel = book.category || "Ministry Publication";
+        html += `
+          <div class="bg-neutral-950 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-xl relative">
+            <button class="edit-btn absolute top-3 right-3 bg-black/80 border border-[#9AFF00]/40 text-[#9AFF00] px-2.5 py-1 rounded-md text-xs font-semibold z-10 hover:bg-[#9AFF00] hover:text-black hover:border-transparent transition-all" style="display: ${isLocked ? 'none' : 'block'}" onclick="openEditModal('${book.id}')">✏️ Edit</button>
+            
+            <div class="flex gap-4 items-start">
+              <div class="w-[110px] sm:w-[120px] aspect-[3/4] rounded-xl overflow-hidden bg-neutral-900 border border-white/10 flex-shrink-0 relative">
+                <img src="${book.img}" alt="${book.title}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300x400/111/9AFF00?text=Book+Cover'">
+              </div>
+              
+              <div class="flex-grow">
+                <span class="text-[10px] font-medium text-[#9AFF00] uppercase tracking-wider">${categoryLabel}</span>
+                <h3 class="text-sm font-semibold text-white mt-1 leading-snug">${book.title}</h3>
+                
+                <div class="mt-3 space-y-1 text-xs">
+                  <div class="text-neutral-300">Paperback: <strong class="text-white">${book.paperbackPrice}</strong></div>
+                  <div class="text-neutral-300">Digital PDF: <strong class="text-[#9AFF00]">${book.digitalPrice}</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 border border-white/10 rounded-xl bg-neutral-900/60 overflow-hidden">
+              <button onclick="toggleCardDesc(${index})" class="w-full px-4 py-2.5 flex items-center justify-between text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">
+                <span class="flex items-center gap-1.5"><span class="iconify text-[#9AFF00]" data-icon="mdi:text-box-outline"></span> Read Description</span>
+                <span id="cardIcon-${index}" class="iconify text-sm transition-transform duration-300" data-icon="mdi:chevron-down"></span>
+              </button>
+              <div id="cardDesc-${index}" class="hidden px-4 pb-3 text-xs text-neutral-400 leading-relaxed border-t border-white/5 pt-2">
+                ${book.desc}
+              </div>
+            </div>
+
+            <div class="mt-5 space-y-2 border-t border-white/10 pt-4">
+              <a href="${book.digitalLink}" target="_blank" class="w-full bg-[#9AFF00] text-black font-semibold text-xs py-2.5 rounded-xl hover:bg-[#88e000] transition-all text-center flex items-center justify-center gap-1.5 shadow-[0_0_15px_-3px_rgba(154,255,0,0.4)]">
+                <span class="iconify text-sm" data-icon="mdi:download-outline"></span> Donate for Digital PDF (${book.digitalPrice})
+              </a>
+              <a href="${book.paperbackLink}" target="_blank" class="w-full bg-white/10 border border-white/20 text-white font-medium text-xs py-2.5 rounded-xl hover:bg-white/20 transition-all text-center flex items-center justify-center gap-1.5">
+                <span class="iconify text-sm" data-icon="mdi:package-variant-closed"></span> Donate for Paperback (${book.paperbackPrice})
+              </a>
+            </div>
+
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function toggleCardDesc(index) {
+      const content = document.getElementById(`cardDesc-${index}`);
+      const icon = document.getElementById(`cardIcon-${index}`);
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function openEditModal(id) {
+      currentEditingId = id;
+      const allBooks = getMergedBooks();
+      const book = allBooks.find(b => b.id === id);
+      if (book) {
+        document.getElementById('editBookTitle').value = book.title || '';
+        document.getElementById('editBookDesc').value = book.desc || '';
+        document.getElementById('editBookPaperbackPrice').value = book.paperbackPrice || '';
+        document.getElementById('editBookDigitalPrice').value = book.digitalPrice || '';
+        document.getElementById('editBookPaperbackLink').value = book.paperbackLink || '';
+        document.getElementById('editBookDigitalLink').value = book.digitalLink || '';
+        document.getElementById('editBookImage').value = '';
+        document.getElementById('editModal').classList.remove('hidden');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('editModal').classList.add('hidden');
+      currentEditingId = null;
+    }
+
+    async function deleteBook() {
+      if (!currentEditingId) return;
+      if (confirm("Are you sure you want to delete this book?")) {
+        const isDigital = currentEditingId.startsWith('A');
+        if (isDigital) {
+          // Clear synced values from local storage
+          localStorage.removeItem(`productImage${currentEditingId}`);
+          localStorage.removeItem(`field_name${currentEditingId}`);
+          localStorage.removeItem(`field_desc${currentEditingId}`);
+          localStorage.removeItem(`field_price${currentEditingId}`);
+          localStorage.removeItem(`field_category${currentEditingId}`);
+        } else {
+          books = books.filter(b => b.id !== currentEditingId);
+          await dbPutBooks(books);
+        }
+        renderLibrary();
+        closeModal();
+      }
+    }
+
+    function saveBookChanges() {
+      if (!currentEditingId) return;
+      
+      const isDigital = currentEditingId.startsWith('A');
+      const title = document.getElementById('editBookTitle').value;
+      const desc = document.getElementById('editBookDesc').value;
+      const paperbackPrice = document.getElementById('editBookPaperbackPrice').value;
+      const digitalPrice = document.getElementById('editBookDigitalPrice').value;
+      const paperbackLink = document.getElementById('editBookPaperbackLink').value;
+      const digitalLink = document.getElementById('editBookDigitalLink').value;
+
+      if (isDigital) {
+        // Save back to local storage so storefront and detail page remain in perfect sync
+        localStorage.setItem(`field_name${currentEditingId}`, title);
+        localStorage.setItem(`field_desc${currentEditingId}`, desc);
+        localStorage.setItem(`field_price${currentEditingId}`, digitalPrice);
+        localStorage.setItem(`field_paperbackLink_${currentEditingId}`, paperbackLink);
+        localStorage.setItem(`field_digitalLink_${currentEditingId}`, digitalLink);
+
+        const fileInput = document.getElementById('editBookImage');
+        const file = fileInput.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            localStorage.setItem(`productImage${currentEditingId}`, e.target.result);
+            renderLibrary();
+            closeModal();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          renderLibrary();
+          closeModal();
+        }
+      } else {
+        // Standard IndexedDB saving
+        const book = books.find(b => b.id === currentEditingId);
+        if (book) {
+          book.title = title;
+          book.desc = desc;
+          book.paperbackPrice = paperbackPrice;
+          book.digitalPrice = digitalPrice;
+          book.paperbackLink = paperbackLink;
+          book.digitalLink = digitalLink;
+
+          const fileInput = document.getElementById('editBookImage');
+          const file = fileInput.files[0];
+
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+              book.img = e.target.result;
+              await dbPutBooks(books);
+              renderLibrary();
+              closeModal();
+            };
+            reader.readAsDataURL(file);
+          } else {
+            dbPutBooks(books).then(() => {
+              renderLibrary();
+              closeModal();
+            });
+          }
+        }
+      }
+    }
+
+    function toggleLockMode() {
+      isLocked = !isLocked;
+      document.body.classList.toggle('locked-mode', isLocked);
+      const indicator = document.getElementById('lockToggle');
+      indicator.textContent = isLocked ? '🔒 Edit Mode: OFF (Locked)' : '🔓 Edit Mode: ON';
+      indicator.classList.toggle('locked', isLocked);
+      renderLibrary();
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await initDB();
+      const savedBooks = await dbGetBooks();
+      if (savedBooks && savedBooks.length > 0) {
+        books = savedBooks;
+      } else {
+        books = defaultBooks;
+        await dbPutBooks(books);
+      }
+      renderLibrary();
+    });
+  </script>
+</body>
+</html>
